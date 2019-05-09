@@ -43,7 +43,11 @@ public class Rechercher extends javax.swing.JFrame {
         bt_rechercher = new javax.swing.JButton();
         bt_afficher = new javax.swing.JButton();
         bt_lister = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        pann_rechecher = new javax.swing.JPanel();
+        tf_choixEtu = new javax.swing.JTextField();
+        lbl_saisieEtu = new javax.swing.JLabel();
+        ImageIcon home= new ImageIcon("src/gif/recherche.jpg");
+        bt_chercher = new javax.swing.JButton(home);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -131,17 +135,49 @@ public class Rechercher extends javax.swing.JFrame {
                 .addContainerGap(220, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        pann_rechecher.setBackground(new java.awt.Color(153, 153, 153));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1103, Short.MAX_VALUE)
+        tf_choixEtu.setBackground(new java.awt.Color(255, 255, 255));
+        tf_choixEtu.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        tf_choixEtu.setForeground(new java.awt.Color(0, 0, 0));
+        tf_choixEtu.setToolTipText("Saisir un numéro étudiant ou Nom");
+
+        lbl_saisieEtu.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        lbl_saisieEtu.setForeground(new java.awt.Color(0, 0, 0));
+        lbl_saisieEtu.setText("Saisir un numéro étudiant ou nom : ");
+
+        bt_chercher.setText("");
+        bt_chercher.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        bt_chercher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_chercherActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pann_rechecherLayout = new javax.swing.GroupLayout(pann_rechecher);
+        pann_rechecher.setLayout(pann_rechecherLayout);
+        pann_rechecherLayout.setHorizontalGroup(
+            pann_rechecherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pann_rechecherLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(pann_rechecherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_saisieEtu, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pann_rechecherLayout.createSequentialGroup()
+                        .addComponent(tf_choixEtu, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bt_chercher, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(343, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 534, Short.MAX_VALUE)
+        pann_rechecherLayout.setVerticalGroup(
+            pann_rechecherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pann_rechecherLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(lbl_saisieEtu, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pann_rechecherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(bt_chercher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tf_choixEtu, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+                .addContainerGap(465, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -157,7 +193,7 @@ public class Rechercher extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addComponent(pann_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pann_rechecher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -171,8 +207,8 @@ public class Rechercher extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pann_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addComponent(pann_rechecher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(1420, 766));
@@ -181,8 +217,13 @@ public class Rechercher extends javax.swing.JFrame {
 
     private void bt_rechercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_rechercherActionPerformed
         // TODO add your handling code here:
+        
  
     }//GEN-LAST:event_bt_rechercherActionPerformed
+
+    private void bt_chercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_chercherActionPerformed
+        this.setVisible(true);
+    }//GEN-LAST:event_bt_chercherActionPerformed
     class btMouseListener implements MouseListener 
         {
 
@@ -278,13 +319,16 @@ public class Rechercher extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_afficher;
+    private javax.swing.JButton bt_chercher;
     private javax.swing.JButton bt_lister;
     private javax.swing.JButton bt_rechercher;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbl_logo;
     private javax.swing.JLabel lbl_nompage;
+    private javax.swing.JLabel lbl_saisieEtu;
     private javax.swing.JLabel lbl_titre;
     private javax.swing.JPanel pann_cohortes;
     private javax.swing.JPanel pann_menu;
+    private javax.swing.JPanel pann_rechecher;
+    private javax.swing.JTextField tf_choixEtu;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,18 +7,40 @@ package cohortes;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.ImageIcon;
+
+
 
 
 /**
  *
  * @author Chachou
  */
+
+
 public class Connexion extends javax.swing.JFrame {
 
     /**
      * Creates new form Connexion
      */
+     private static Connection  connecterDB(){
+        try{
+            Class.forName("oracle.jdbc.OracleDriver");
+            String url="jdbc:oracle:thin:@iutdoua-oracle.univ-lyon1.fr:1521:orcl";
+            String user="p1812282";
+            String password="375141";
+           Connection cnx=DriverManager.getConnection(url,user,password);
+            System.out.println("Connexion bien établié");
+            return cnx;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+     }
     public Connexion() {
         initComponents();
     }
@@ -226,12 +248,30 @@ public class Connexion extends javax.swing.JFrame {
 
     private void bt_connexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_connexionActionPerformed
         // TODO add your handling code here:
-        if(tf_identifiant.getText().equals("Admin")&& pf_mdp.getText().equals("1234"))
+        try{
+              cnx=connecterDB(); 
+              st=cnx.createStatement();
+              String identifiant=tf_identifiant.getText();
+              String motDePasse=pf_mdp.getText();
+              rst=st.executeQuery("select * from UTILISATEURS");
+              while(rst.next()){
+                  if(rst.getString("nom_user").equals(identifiant) &&rst.getString("mdp_user").equals(motDePasse))
+                  {
+                           this.setVisible(false);
+                        new Accueil().setVisible(true);
+                  }
+                  System.out.println();
+              }
+          }catch(Exception ex){
+              ex.printStackTrace();
+          } 
+        
+        /*if(tf_identifiant.getText().equals("Admin")&& pf_mdp.getText().equals("1234"))
         {
          this.setVisible(false);
          new Accueil().setVisible(true);
         }
-        
+        */
         
     }//GEN-LAST:event_bt_connexionActionPerformed
 
@@ -269,11 +309,17 @@ public class Connexion extends javax.swing.JFrame {
                 Connexion maFenetre = new Connexion();
                 maFenetre.setVisible(true);
                 maFenetre.setSize(1400,800);
+                
+     
 
             }
         });
     }
-
+    //
+     static Connection cnx;
+    static Statement st;
+    static ResultSet rst;
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_connexion;
     private javax.swing.JLabel lbl_identifiant;
