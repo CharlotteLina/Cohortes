@@ -388,6 +388,11 @@ public class Rechercher extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_reponse4ActionPerformed
 
     private void bt_chercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_chercherActionPerformed
+        bt_reponse.setVisible(false);
+        bt_reponse1.setVisible(false);
+        bt_reponse2.setVisible(false);
+        bt_reponse3.setVisible(false);
+        bt_reponse4.setVisible(false);
         try
         {
 
@@ -405,6 +410,7 @@ public class Rechercher extends javax.swing.JFrame {
                     bt_reponse.setText(rst.getString("Nom1"));
                     pann_reponse.setVisible(true);
                     bt_reponse.setVisible(true);
+                 
                 }
                 if(i==2)
                 {

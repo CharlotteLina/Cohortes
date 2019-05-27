@@ -9,13 +9,25 @@ package cohortes;
 import static cohortes.Connexion.cnx;
 import static cohortes.Connexion.rst;
 import static cohortes.Rechercher.cnx;
+import static cohortes.Rechercher.rst;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import static javafx.scene.paint.Color.color;
+import static javafx.scene.paint.Color.color;
+import static javafx.scene.paint.Color.color;
 import javax.swing.ImageIcon;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import oracle.net.aso.j;
 
 
 
@@ -25,26 +37,28 @@ import javax.swing.ImageIcon;
  */
 public class Rechercher_Etudiant extends javax.swing.JFrame {
 
+    private final DefaultTableModel modelNotesS1;
     /**
      * Creates new form Connexion
      */
     
-         private static Connection  connecterDB(){
+    private static Connection  connecterDB(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
             String url="jdbc:mysql://localhost:3306/PTUT?zeroDateTimeBehavior=convertToNull";
             String user="root";
             String password="";
             Connection cnx=DriverManager.getConnection(url,user,password);
-            System.out.println("Connexion bien établié");
             return cnx;
         }catch(Exception e){
             e.printStackTrace();
             return null;
         }
      }
+    
     public Rechercher_Etudiant(String NomPrenom) {
         
+        modelNotesS1=new DefaultTableModel();
         initComponents();
          try
          {
@@ -61,6 +75,7 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
                     lbl_absence1.setText(rst.getString("Abscence"));
                     lbl_email1.setText(rst.getString("email"));
                     lbl_groupe1.setText(rst.getString("Groupe"));
+                    lbl_nE1.setText(rst.getString("NE"));
                }
               
                   
@@ -92,20 +107,29 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         bt_afficher = new javax.swing.JButton();
         bt_lister = new javax.swing.JButton();
         lbl_erreur = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        pann_notes = new javax.swing.JPanel();
+        notesS1 = new javax.swing.JButton();
+        notesS2 = new javax.swing.JButton();
+        notesS3 = new javax.swing.JButton();
+        notesS4 = new javax.swing.JButton();
+        jsp_notes = new javax.swing.JScrollPane();
+        jt_notes = new javax.swing.JTable();
+        jTextField1 = new javax.swing.JTextField();
+        lbl_resultat = new javax.swing.JLabel();
         lbl_nom = new javax.swing.JLabel();
         lbl_prenom = new javax.swing.JLabel();
         lbl_bac = new javax.swing.JLabel();
         lbl_email = new javax.swing.JLabel();
         lbl_absence = new javax.swing.JLabel();
         lbl_groupe = new javax.swing.JLabel();
-        lbl_resultat = new javax.swing.JLabel();
         lbl_nom1 = new javax.swing.JLabel();
         lbl_prenom1 = new javax.swing.JLabel();
         lbl_groupe1 = new javax.swing.JLabel();
         lbl_absence1 = new javax.swing.JLabel();
         lbl_email1 = new javax.swing.JLabel();
         lbl_bac1 = new javax.swing.JLabel();
+        lbl_nE = new javax.swing.JLabel();
+        lbl_nE1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -193,17 +217,115 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         lbl_erreur.setForeground(new java.awt.Color(255, 0, 51));
         lbl_erreur.setVisible(false);
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        pann_notes.setBackground(new java.awt.Color(204, 204, 204));
+        pann_notes.setForeground(new java.awt.Color(0, 0, 0));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1131, Short.MAX_VALUE)
+        notesS1.setBackground(new java.awt.Color(0, 0, 0));
+        notesS1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        notesS1.setForeground(new java.awt.Color(0, 204, 204));
+        notesS1.setText("Notes S1");
+        notesS1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notesS1ActionPerformed(evt);
+            }
+        });
+
+        notesS2.setBackground(new java.awt.Color(0, 0, 0));
+        notesS2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        notesS2.setForeground(new java.awt.Color(0, 204, 204));
+        notesS2.setText("Notes S2");
+        notesS2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notesS2ActionPerformed(evt);
+            }
+        });
+
+        notesS3.setBackground(new java.awt.Color(0, 0, 0));
+        notesS3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        notesS3.setForeground(new java.awt.Color(0, 204, 204));
+        notesS3.setText("Notes S3");
+        notesS3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notesS3ActionPerformed(evt);
+            }
+        });
+
+        notesS4.setBackground(new java.awt.Color(0, 0, 0));
+        notesS4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        notesS4.setForeground(new java.awt.Color(0, 204, 204));
+        notesS4.setText("Notes S4");
+        notesS4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notesS4ActionPerformed(evt);
+            }
+        });
+
+        jt_notes.setBackground(new java.awt.Color(204, 204, 204));
+        jt_notes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jt_notes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jt_notes.setForeground(new java.awt.Color(0, 0, 0));
+        jt_notes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Matieres", "Notes"
+            }
+        ));
+        jsp_notes.setViewportView(jt_notes);
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        lbl_resultat.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbl_resultat.setForeground(new java.awt.Color(0, 0, 0));
+        lbl_resultat.setText("Resultat :");
+
+        javax.swing.GroupLayout pann_notesLayout = new javax.swing.GroupLayout(pann_notes);
+        pann_notes.setLayout(pann_notesLayout);
+        pann_notesLayout.setHorizontalGroup(
+            pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pann_notesLayout.createSequentialGroup()
+                .addComponent(notesS1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(notesS2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(notesS3, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(notesS4, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pann_notesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jsp_notes, javax.swing.GroupLayout.PREFERRED_SIZE, 812, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pann_notesLayout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(lbl_resultat, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pann_notesLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 417, Short.MAX_VALUE)
+        pann_notesLayout.setVerticalGroup(
+            pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pann_notesLayout.createSequentialGroup()
+                .addGroup(pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(notesS1)
+                    .addComponent(notesS2)
+                    .addComponent(notesS3)
+                    .addComponent(notesS4))
+                .addGap(46, 46, 46)
+                .addGroup(pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pann_notesLayout.createSequentialGroup()
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71)
+                        .addComponent(lbl_resultat)
+                        .addGap(0, 18, Short.MAX_VALUE))
+                    .addComponent(jsp_notes))
+                .addContainerGap())
         );
 
         lbl_nom.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
@@ -219,13 +341,10 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         lbl_email.setText("Email:");
 
         lbl_absence.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lbl_absence.setText("Absence :");
+        lbl_absence.setText("Absence(s) :");
 
         lbl_groupe.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lbl_groupe.setText("Groupe :");
-
-        lbl_resultat.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        lbl_resultat.setText("Resultat :");
 
         lbl_nom1.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
 
@@ -238,6 +357,11 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         lbl_email1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         lbl_bac1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        lbl_nE.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
+        lbl_nE.setText("Numéro Etudiant :");
+
+        lbl_nE1.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -254,7 +378,23 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
                         .addComponent(pann_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lbl_groupe)
+                                            .addComponent(lbl_email, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lbl_groupe1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(32, 32, 32)
+                                                .addComponent(lbl_absence)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(lbl_absence1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(lbl_email1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(pann_notes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbl_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -265,27 +405,15 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
                                         .addComponent(lbl_prenom)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(lbl_prenom1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
-                                        .addComponent(lbl_resultat, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(123, 123, 123))
+                                        .addGap(49, 49, 49)
+                                        .addComponent(lbl_nE, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lbl_nE1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lbl_bac, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lbl_bac1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lbl_groupe)
-                                    .addComponent(lbl_email, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lbl_groupe1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(32, 32, 32)
-                                        .addComponent(lbl_absence)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lbl_absence1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lbl_email1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                        .addComponent(lbl_bac1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(65, Short.MAX_VALUE))))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(104, 104, 104)
                 .addComponent(lbl_erreur, javax.swing.GroupLayout.PREFERRED_SIZE, 1225, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -300,16 +428,19 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addComponent(pann_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lbl_nom)
-                                .addComponent(lbl_resultat)
-                                .addComponent(lbl_prenom1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lbl_prenom))
-                            .addComponent(lbl_nom1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbl_nom1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lbl_nE)
+                                    .addComponent(lbl_nE1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_prenom1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbl_prenom, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lbl_nom))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_groupe1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,14 +454,14 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_email)
                             .addComponent(lbl_email1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pann_notes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(lbl_erreur, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1419, 765));
+        setSize(new java.awt.Dimension(1465, 867));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -338,6 +469,187 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_bt_rechercherActionPerformed
+
+    private void test_table()
+    {
+        
+        DefaultTableModel modele= (DefaultTableModel)jt_notes.getModel();
+        int l=modele.getRowCount();
+        if(l>0)
+        {
+              for(int i =l; i > 0; --i) 
+            {
+                modele.removeRow(i-1);
+            }
+        }
+        System.out.println(l);
+    }
+    private void notesS1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesS1ActionPerformed
+        // TODO add your handling code here:
+        test_table();
+        DefaultTableModel modele= (DefaultTableModel)jt_notes.getModel();
+        jt_notes.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
+{
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+    {
+    
+        final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    if(row==17||row==25)
+    {
+        c.setBackground(new Color(102,255,204));
+        c.setFont(new Font("Helvetica Bold", Font.BOLD,22));
+        table.setRowHeight(30);
+ 
+    }
+    else
+        if(row==26)
+            {
+                c.setBackground(new Color(10, 216, 148));
+                c.setFont(new Font("Helvetica Bold", Font.BOLD,24));
+            }
+        else
+            if(row==27||row==28)
+            {
+                c.setBackground(new Color(136, 150, 149));
+                c.setFont(new Font("Helvetica Bold", Font.BOLD,20));
+            }
+            else
+            {
+                c.setBackground(Color.WHITE);
+            }
+        
+
+return c;
+    }});
+
+         try
+        {
+            String note="", nomColonne="";
+            int i;
+            cnx=connecterDB();
+            st=cnx.createStatement();
+            String ne= lbl_nE1.getText();
+            rst=st.executeQuery("Select * from notess1 where NE like'"+ne+"'");
+           
+                while(rst.next())
+                {
+                    for(i=2;i<31;i++)
+                    {
+                    
+                    nomColonne=rst.getMetaData().getColumnName(i);
+                    note=rst.getString(nomColonne);
+                    if(i<28)
+                    {
+                    modele.addRow(new Object[]{recherche_nom_matiere(nomColonne),note});
+                    }
+                    if(i==28)
+                    {  modele.addRow(new Object[]{"Moyenne S1",note});}
+                    if(i==29)
+                    {modele.addRow(new Object[]{"Ptn",note});}
+                    if(i==30)
+                    { modele.addRow(new Object[]{"Rang",note});}
+                    
+                 }
+                test=1; 
+            
+                }
+    
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+     
+    }//GEN-LAST:event_notesS1ActionPerformed
+
+ 
+    private void notesS2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesS2ActionPerformed
+        // TODO add your handling code here:
+        
+         test_table();
+        DefaultTableModel modele= (DefaultTableModel)jt_notes.getModel();
+           jt_notes.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
+{
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+    {
+    
+       
+        final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    if(row==13||row==23)
+    {
+        c.setBackground(new Color(102,255,204));
+        c.setFont(new Font("Helvetica Bold", Font.BOLD,14));
+    }
+    else
+        if(row==24)
+            {
+                c.setBackground(new Color(10, 216, 148));
+                c.setFont(new Font("Helvetica Bold", Font.BOLD,16));
+            }
+        else
+            if(row==25||row==26)
+            {
+                c.setBackground(new Color(136, 150, 149));
+                c.setFont(new Font("Helvetica Bold", Font.BOLD,14));
+            }
+            else
+            {
+                c.setBackground(Color.WHITE);
+            }
+        
+
+return c;
+    }});
+        try
+        {
+            String note="", nomColonne="";
+            int i;
+            cnx=connecterDB();
+            st=cnx.createStatement();
+            String ne= lbl_nE1.getText();
+            rst=st.executeQuery("Select * from notess2 where NE like'"+ne+"'");
+           
+                while(rst.next())
+                {
+                    for(i=2;i<29;i++)
+                    {
+                    
+                    nomColonne=rst.getMetaData().getColumnName(i);
+                    note=rst.getString(nomColonne);
+                    if(i<26)
+                    {
+                    modele.addRow(new Object[]{recherche_nom_matiere(nomColonne),note});
+                    }
+                    if(i==26)
+                    {  modele.addRow(new Object[]{"Moyenne S2",note});}
+                    if(i==27)
+                    {modele.addRow(new Object[]{"Ptn",note});}
+                    if(i==28)
+                    { modele.addRow(new Object[]{"Rang",note});}
+                    }   
+                   test=1; 
+                }
+    
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+     
+    
+    }//GEN-LAST:event_notesS2ActionPerformed
+
+    private void notesS3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesS3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_notesS3ActionPerformed
+
+    private void notesS4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesS4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_notesS4ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
     class btMouseListener implements MouseListener 
         {
 
@@ -385,6 +697,25 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
           
         }
             }
+    
+       private String recherche_nom_matiere(String M) throws SQLException
+     {
+         String nom="";
+             cnx=connecterDB();
+             st=cnx.createStatement();
+             rstMat=st.executeQuery("Select * from matieres where id_matiere like '"+M+"'");
+             while(rstMat.next())
+             {
+                nom=rstMat.getNString(2);  
+             }
+             rstUE=st.executeQuery("Select * from UE ue where id_UE like '"+M+"'");
+             while(rstUE.next())
+             {
+                nom=rstUE.getNString(2);  
+             }
+             
+         return nom;
+     }
     /**
      * @param args the command line arguments
      */
@@ -440,14 +771,16 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
     }
         static Connection cnx;
         static Statement st;
-        static ResultSet rst;
-        
+        static ResultSet rst,rstMat, rstUE;
+        private int test=0;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_afficher;
     private javax.swing.JButton bt_lister;
     private javax.swing.JButton bt_rechercher;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jsp_notes;
+    private javax.swing.JTable jt_notes;
     private javax.swing.JLabel lbl_absence;
     private javax.swing.JLabel lbl_absence1;
     private javax.swing.JLabel lbl_bac;
@@ -458,13 +791,20 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_groupe;
     private javax.swing.JLabel lbl_groupe1;
     private javax.swing.JLabel lbl_logo;
+    private javax.swing.JLabel lbl_nE;
+    private javax.swing.JLabel lbl_nE1;
     private javax.swing.JLabel lbl_nom;
     private javax.swing.JLabel lbl_nom1;
     private javax.swing.JLabel lbl_prenom;
     private javax.swing.JLabel lbl_prenom1;
     private javax.swing.JLabel lbl_resultat;
     private javax.swing.JLabel lbl_titre;
+    private javax.swing.JButton notesS1;
+    private javax.swing.JButton notesS2;
+    private javax.swing.JButton notesS3;
+    private javax.swing.JButton notesS4;
     private javax.swing.JPanel pann_cohortes;
     private javax.swing.JPanel pann_menu;
+    private javax.swing.JPanel pann_notes;
     // End of variables declaration//GEN-END:variables
 }
