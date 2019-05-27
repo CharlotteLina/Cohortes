@@ -1,0 +1,8 @@
+Créer dans PHP My Admin en local une BDD : ptut
+
+1- importer chaque fichier sql (etudiants, semestres, ue, matieres, sous matieres, notess1, notess2, notess3, notess4 <-- Dans cet ordre)
+
+2 - Pour tester il suffit dans chaque table de charger les fichiers concernes avec le bouton importer
+(Attention a bien etre dans la table concernés) 
+
+(Si erreur dans 'operation' tout en bas on peut vider la table ou la supprimer ensuite il suffit juste de recommencer la procédure)
