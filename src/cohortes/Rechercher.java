@@ -243,9 +243,8 @@ public class Rechercher extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pann_rechecherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lbl_erreur, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                    .addGroup(pann_rechecherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(bt_chercher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tf_choixEtu, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)))
+                    .addComponent(bt_chercher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tf_choixEtu, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -253,6 +252,9 @@ public class Rechercher extends javax.swing.JFrame {
         pann_reponse.setVisible(false);
 
         bt_reponse.setVisible(false);
+        bt_reponse.setBackground(new java.awt.Color(51, 255, 204));
+        bt_reponse.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        bt_reponse.setForeground(new java.awt.Color(0, 0, 0));
         bt_reponse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_reponseActionPerformed(evt);
@@ -260,6 +262,9 @@ public class Rechercher extends javax.swing.JFrame {
         });
 
         bt_reponse1.setVisible(false);
+        bt_reponse1.setBackground(new java.awt.Color(102, 255, 204));
+        bt_reponse1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        bt_reponse1.setForeground(new java.awt.Color(0, 0, 0));
         bt_reponse1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_reponse1ActionPerformed(evt);
@@ -267,6 +272,9 @@ public class Rechercher extends javax.swing.JFrame {
         });
 
         bt_reponse2.setVisible(false);
+        bt_reponse2.setBackground(new java.awt.Color(102, 255, 204));
+        bt_reponse2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        bt_reponse2.setForeground(new java.awt.Color(0, 0, 0));
         bt_reponse2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_reponse2ActionPerformed(evt);
@@ -274,6 +282,9 @@ public class Rechercher extends javax.swing.JFrame {
         });
 
         bt_reponse3.setVisible(false);
+        bt_reponse3.setBackground(new java.awt.Color(102, 255, 204));
+        bt_reponse3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        bt_reponse3.setForeground(new java.awt.Color(0, 0, 0));
         bt_reponse3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_reponse3ActionPerformed(evt);
@@ -281,6 +292,9 @@ public class Rechercher extends javax.swing.JFrame {
         });
 
         bt_reponse4.setVisible(false);
+        bt_reponse4.setBackground(new java.awt.Color(102, 255, 204));
+        bt_reponse4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        bt_reponse4.setForeground(new java.awt.Color(0, 0, 0));
         bt_reponse4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_reponse4ActionPerformed(evt);
@@ -377,14 +391,20 @@ public class Rechercher extends javax.swing.JFrame {
 
     private void bt_reponse2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_reponse2ActionPerformed
         // TODO add your handling code here:
+         setVisible(false);
+        new Rechercher_Etudiant(bt_reponse2.getText()).setVisible(true);
     }//GEN-LAST:event_bt_reponse2ActionPerformed
 
     private void bt_reponse3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_reponse3ActionPerformed
         // TODO add your handling code here:
+         setVisible(false);
+        new Rechercher_Etudiant(bt_reponse3.getText()).setVisible(true);
     }//GEN-LAST:event_bt_reponse3ActionPerformed
 
     private void bt_reponse4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_reponse4ActionPerformed
         // TODO add your handling code here:
+         setVisible(false);
+        new Rechercher_Etudiant(bt_reponse4.getText()).setVisible(true);
     }//GEN-LAST:event_bt_reponse4ActionPerformed
 
     private void bt_chercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_chercherActionPerformed

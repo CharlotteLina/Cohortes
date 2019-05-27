@@ -13,6 +13,8 @@ import static cohortes.Rechercher.rst;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
@@ -42,6 +44,7 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
      * Creates new form Connexion
      */
     
+    //Connexion à la BDD
     private static Connection  connecterDB(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -60,6 +63,8 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         
         modelNotesS1=new DefaultTableModel();
         initComponents();
+        
+        //Initilisation des champs en fonction des l'étudiant
          try
          {
              
@@ -76,6 +81,7 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
                     lbl_email1.setText(rst.getString("email"));
                     lbl_groupe1.setText(rst.getString("Groupe"));
                     lbl_nE1.setText(rst.getString("NE"));
+                    tf_comm.setText(rst.getString("Commentaire"));
                }
               
                   
@@ -114,8 +120,9 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         notesS4 = new javax.swing.JButton();
         jsp_notes = new javax.swing.JScrollPane();
         jt_notes = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
+        tf_comm = new javax.swing.JTextField();
         lbl_resultat = new javax.swing.JLabel();
+        lbl_semestre = new javax.swing.JLabel();
         lbl_nom = new javax.swing.JLabel();
         lbl_prenom = new javax.swing.JLabel();
         lbl_bac = new javax.swing.JLabel();
@@ -264,6 +271,7 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         jt_notes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jt_notes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jt_notes.setForeground(new java.awt.Color(0, 0, 0));
+        jt_notes.setRowHeight(30);
         jt_notes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -274,15 +282,57 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         ));
         jsp_notes.setViewportView(jt_notes);
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        tf_comm.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        tf_comm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                tf_commActionPerformed(evt);
             }
+        });
+        tf_comm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf_commActionPerformed(evt);
+            }
+        });
+        tf_comm.addKeyListener(new KeyListener() {
+
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            public void keyPressed(KeyEvent e) {
+
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+
+                {
+                    try
+                    {
+                        cnx=connecterDB();
+                        st=cnx.createStatement();
+                        String ne=lbl_nE1.getText();
+                        String commentaire=tf_comm.getText();
+
+                        st.executeUpdate("update etudiants set Commentaire='"+commentaire+"' WHERE  NE like'"+ne+"'");
+
+                    }
+                    catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+
+            }
+
+            public void keyReleased(KeyEvent e) {
+
+            }
+
         });
 
         lbl_resultat.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         lbl_resultat.setForeground(new java.awt.Color(0, 0, 0));
         lbl_resultat.setText("Resultat :");
+
+        lbl_semestre.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbl_semestre.setText("");
 
         javax.swing.GroupLayout pann_notesLayout = new javax.swing.GroupLayout(pann_notes);
         pann_notes.setLayout(pann_notesLayout);
@@ -306,8 +356,12 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
                         .addComponent(lbl_resultat, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pann_notesLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tf_comm, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(48, 48, 48))))
+            .addGroup(pann_notesLayout.createSequentialGroup()
+                .addGap(143, 143, 143)
+                .addComponent(lbl_semestre, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pann_notesLayout.setVerticalGroup(
             pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,10 +371,12 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
                     .addComponent(notesS2)
                     .addComponent(notesS3)
                     .addComponent(notesS4))
-                .addGap(46, 46, 46)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_semestre, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pann_notesLayout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tf_comm, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(71, 71, 71)
                         .addComponent(lbl_resultat)
                         .addGap(0, 18, Short.MAX_VALUE))
@@ -470,6 +526,7 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
 
     }//GEN-LAST:event_bt_rechercherActionPerformed
 
+    //Test afin de vider la table de note si elle n'est pas vide
     private void test_table()
     {
         
@@ -484,8 +541,11 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         }
         System.out.println(l);
     }
+    
+    // Mise en place des notes du semestre 1
     private void notesS1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesS1ActionPerformed
         // TODO add your handling code here:
+        lbl_semestre.setText("Semestre 1");
         test_table();
         DefaultTableModel modele= (DefaultTableModel)jt_notes.getModel();
         jt_notes.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
@@ -498,15 +558,15 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
     if(row==17||row==25)
     {
         c.setBackground(new Color(102,255,204));
-        c.setFont(new Font("Helvetica Bold", Font.BOLD,22));
-        table.setRowHeight(30);
+        c.setFont(new Font("Helvetica Bold", Font.BOLD,20));
+        
  
     }
     else
         if(row==26)
             {
                 c.setBackground(new Color(10, 216, 148));
-                c.setFont(new Font("Helvetica Bold", Font.BOLD,24));
+                c.setFont(new Font("Helvetica Bold", Font.BOLD,22));
             }
         else
             if(row==27||row==28)
@@ -534,24 +594,23 @@ return c;
            
                 while(rst.next())
                 {
-                    for(i=2;i<31;i++)
+                    for(i=3;i<32;i++)
                     {
                     
                     nomColonne=rst.getMetaData().getColumnName(i);
                     note=rst.getString(nomColonne);
-                    if(i<28)
+                    if(i<29)
                     {
                     modele.addRow(new Object[]{recherche_nom_matiere(nomColonne),note});
                     }
-                    if(i==28)
-                    {  modele.addRow(new Object[]{"Moyenne S1",note});}
                     if(i==29)
-                    {modele.addRow(new Object[]{"Ptn",note});}
+                    {  modele.addRow(new Object[]{"Moyenne S1",note});}
                     if(i==30)
+                    {modele.addRow(new Object[]{"Ptn",note});}
+                    if(i==31)
                     { modele.addRow(new Object[]{"Rang",note});}
                     
                  }
-                test=1; 
             
                 }
     
@@ -561,11 +620,11 @@ return c;
         }
      
     }//GEN-LAST:event_notesS1ActionPerformed
-
- 
+    // Mise en place des notes du semestre 2 
     private void notesS2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesS2ActionPerformed
         // TODO add your handling code here:
-        
+                lbl_semestre.setText("Semestre 2");
+
          test_table();
         DefaultTableModel modele= (DefaultTableModel)jt_notes.getModel();
            jt_notes.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
@@ -579,19 +638,19 @@ return c;
     if(row==13||row==23)
     {
         c.setBackground(new Color(102,255,204));
-        c.setFont(new Font("Helvetica Bold", Font.BOLD,14));
+        c.setFont(new Font("Helvetica Bold", Font.BOLD,20));
     }
     else
         if(row==24)
             {
                 c.setBackground(new Color(10, 216, 148));
-                c.setFont(new Font("Helvetica Bold", Font.BOLD,16));
+                c.setFont(new Font("Helvetica Bold", Font.BOLD,22));
             }
         else
             if(row==25||row==26)
             {
                 c.setBackground(new Color(136, 150, 149));
-                c.setFont(new Font("Helvetica Bold", Font.BOLD,14));
+                c.setFont(new Font("Helvetica Bold", Font.BOLD,20));
             }
             else
             {
@@ -612,23 +671,23 @@ return c;
            
                 while(rst.next())
                 {
-                    for(i=2;i<29;i++)
+                    for(i=3;i<30;i++)
                     {
                     
                     nomColonne=rst.getMetaData().getColumnName(i);
                     note=rst.getString(nomColonne);
-                    if(i<26)
+                    if(i<27)
                     {
                     modele.addRow(new Object[]{recherche_nom_matiere(nomColonne),note});
                     }
-                    if(i==26)
-                    {  modele.addRow(new Object[]{"Moyenne S2",note});}
                     if(i==27)
-                    {modele.addRow(new Object[]{"Ptn",note});}
+                    {  modele.addRow(new Object[]{"Moyenne S2",note});}
                     if(i==28)
+                    {modele.addRow(new Object[]{"Ptn",note});}
+                    if(i==29)
                     { modele.addRow(new Object[]{"Rang",note});}
                     }   
-                   test=1; 
+
                 }
     
         }
@@ -638,18 +697,198 @@ return c;
      
     
     }//GEN-LAST:event_notesS2ActionPerformed
-
+     // Mise en place des notes du semestre 3
     private void notesS3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesS3ActionPerformed
+        {                                        
         // TODO add your handling code here:
-    }//GEN-LAST:event_notesS3ActionPerformed
+                lbl_semestre.setText("Semestre 3");
 
+         test_table();
+        DefaultTableModel modele= (DefaultTableModel)jt_notes.getModel();
+           jt_notes.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
+{
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+    {
+    
+       
+        final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    if(row==10||row==19)
+    {
+        c.setBackground(new Color(102,255,204));
+        c.setFont(new Font("Helvetica Bold", Font.BOLD,20));
+    }
+    else
+        if(row==20)
+            {
+                c.setBackground(new Color(10, 216, 148));
+                c.setFont(new Font("Helvetica Bold", Font.BOLD,22));
+            }
+        else
+            if(row==21||row==22)
+            {
+                c.setBackground(new Color(136, 150, 149));
+                c.setFont(new Font("Helvetica Bold", Font.BOLD,20));
+            }
+            else
+            {
+                c.setBackground(Color.WHITE);
+            }
+        
+
+return c;
+    }});
+        try
+        {
+            String note="", nomColonne="";
+            int i;
+            cnx=connecterDB();
+            st=cnx.createStatement();
+            String ne= lbl_nE1.getText();
+            rst=st.executeQuery("Select * from notess3 where NE like'"+ne+"'");
+           
+                while(rst.next())
+                {
+                    for(i=3;i<26;i++)
+                    {
+                    
+                    nomColonne=rst.getMetaData().getColumnName(i);
+                    note=rst.getString(nomColonne);
+                    if(i<23)
+                    {
+                    modele.addRow(new Object[]{recherche_nom_matiere(nomColonne),note});
+                    }
+                    if(i==23)
+                    {  modele.addRow(new Object[]{"Moyenne S3",note});}
+                    if(i==24)
+                    {modele.addRow(new Object[]{"Ptn",note});}
+                    if(i==25)
+                    { modele.addRow(new Object[]{"Rang",note});}
+                    }   
+                   
+                }
+    
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+     
+    
+    } 
+    }//GEN-LAST:event_notesS3ActionPerformed
+    // Mise en place des notes du semestre 4
     private void notesS4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesS4ActionPerformed
+       {                                        
+        {                                        
         // TODO add your handling code here:
+                lbl_semestre.setText("Semestre 4");
+
+         test_table();
+        DefaultTableModel modele= (DefaultTableModel)jt_notes.getModel();
+           jt_notes.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
+{
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+    {
+    
+       
+        final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    if(row==12||row==20||row==22)
+    {
+        c.setBackground(new Color(102,255,204));
+        c.setFont(new Font("Helvetica Bold", Font.BOLD,20));
+    }
+    else
+        if(row==23)
+            {
+                c.setBackground(new Color(10, 216, 148));
+                c.setFont(new Font("Helvetica Bold", Font.BOLD,22));
+            }
+        else
+            if(row==24||row==25)
+            {
+                c.setBackground(new Color(136, 150, 149));
+                c.setFont(new Font("Helvetica Bold", Font.BOLD,20));
+            }
+            else
+            {
+                c.setBackground(Color.WHITE);
+            }
+        
+
+return c;
+    }});
+        try
+        {
+            String note="", nomColonne="";
+            int i;
+            cnx=connecterDB();
+            st=cnx.createStatement();
+            String ne= lbl_nE1.getText();
+            rst=st.executeQuery("Select * from notess4 where NE like'"+ne+"'");
+           
+                while(rst.next())
+                {
+                    for(i=3;i<29;i++)
+                    {
+                    
+                    nomColonne=rst.getMetaData().getColumnName(i);
+                    note=rst.getString(nomColonne);
+                    if(i<26)
+                    {
+                    modele.addRow(new Object[]{recherche_nom_matiere(nomColonne),note});
+                    }
+                    if(i==26)
+                    {  modele.addRow(new Object[]{"Moyenne S4",note});}
+                    if(i==27)
+                    {modele.addRow(new Object[]{"Ptn",note});}
+                    if(i==28)
+                    { modele.addRow(new Object[]{"Rang",note});}
+                    }   
+                }
+    
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+     
+    
+    } 
+    }  
     }//GEN-LAST:event_notesS4ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    //Recherche nom matiere, sous matiere ou UE 
+           private String recherche_nom_matiere(String M) throws SQLException
+     {
+         String nom="";
+             cnx=connecterDB();
+             st=cnx.createStatement();
+             
+            rstSSMat=st.executeQuery("Select * from sous_matieres where id_sous_matiere like '"+M+"'");
+             while(rstSSMat.next())
+             {
+                nom=rstSSMat.getNString(2);  
+             }
+             rstMat=st.executeQuery("Select * from matieres where id_matiere like '"+M+"'");
+             while(rstMat.next())
+             {
+                nom=rstMat.getNString(2);  
+             }
+             rstUE=st.executeQuery("Select * from UE ue where id_UE like '"+M+"'");
+             while(rstUE.next())
+             {
+                nom=rstUE.getNString(2);  
+             }
+             
+         return nom;
+     }
+    
+    private void tf_commActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_commActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        
+    }//GEN-LAST:event_tf_commActionPerformed
+   
+    //Definition du menu (recherche -afficher - lister )
     class btMouseListener implements MouseListener 
         {
 
@@ -698,24 +937,7 @@ return c;
         }
             }
     
-       private String recherche_nom_matiere(String M) throws SQLException
-     {
-         String nom="";
-             cnx=connecterDB();
-             st=cnx.createStatement();
-             rstMat=st.executeQuery("Select * from matieres where id_matiere like '"+M+"'");
-             while(rstMat.next())
-             {
-                nom=rstMat.getNString(2);  
-             }
-             rstUE=st.executeQuery("Select * from UE ue where id_UE like '"+M+"'");
-             while(rstUE.next())
-             {
-                nom=rstUE.getNString(2);  
-             }
-             
-         return nom;
-     }
+
     /**
      * @param args the command line arguments
      */
@@ -769,16 +991,18 @@ return c;
             }
         });
     }
-        static Connection cnx;
-        static Statement st;
-        static ResultSet rst,rstMat, rstUE;
-        private int test=0;
+        
+    
+    
+    //Déclaration variable pour BDD
+    static Connection cnx;
+    static Statement st;
+    static ResultSet rst,rstMat, rstSSMat, rstUE;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_afficher;
     private javax.swing.JButton bt_lister;
     private javax.swing.JButton bt_rechercher;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JScrollPane jsp_notes;
     private javax.swing.JTable jt_notes;
     private javax.swing.JLabel lbl_absence;
@@ -798,6 +1022,7 @@ return c;
     private javax.swing.JLabel lbl_prenom;
     private javax.swing.JLabel lbl_prenom1;
     private javax.swing.JLabel lbl_resultat;
+    private javax.swing.JLabel lbl_semestre;
     private javax.swing.JLabel lbl_titre;
     private javax.swing.JButton notesS1;
     private javax.swing.JButton notesS2;
@@ -806,5 +1031,6 @@ return c;
     private javax.swing.JPanel pann_cohortes;
     private javax.swing.JPanel pann_menu;
     private javax.swing.JPanel pann_notes;
+    private javax.swing.JTextField tf_comm;
     // End of variables declaration//GEN-END:variables
 }
