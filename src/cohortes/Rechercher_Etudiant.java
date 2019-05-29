@@ -82,6 +82,7 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
                     lbl_groupe1.setText(rst.getString("Groupe"));
                     lbl_nE1.setText(rst.getString("NE"));
                     tf_comm.setText(rst.getString("Commentaire"));
+                    
                }
               
                   
@@ -94,6 +95,7 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
     private Rechercher_Etudiant() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -120,9 +122,11 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         notesS4 = new javax.swing.JButton();
         jsp_notes = new javax.swing.JScrollPane();
         jt_notes = new javax.swing.JTable();
-        tf_comm = new javax.swing.JTextField();
         lbl_resultat = new javax.swing.JLabel();
         lbl_semestre = new javax.swing.JLabel();
+        lbl_resultat1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tf_comm = new javax.swing.JTextArea();
         lbl_nom = new javax.swing.JLabel();
         lbl_prenom = new javax.swing.JLabel();
         lbl_bac = new javax.swing.JLabel();
@@ -282,17 +286,19 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         ));
         jsp_notes.setViewportView(jt_notes);
 
-        tf_comm.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        tf_comm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_commActionPerformed(evt);
-            }
-        });
-        tf_comm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_commActionPerformed(evt);
-            }
-        });
+        lbl_resultat.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbl_resultat.setForeground(new java.awt.Color(0, 0, 0));
+        lbl_resultat.setText("Resultat :");
+
+        lbl_semestre.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbl_semestre.setText("");
+
+        lbl_resultat1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbl_resultat1.setForeground(new java.awt.Color(0, 0, 0));
+
+        tf_comm.setColumns(20);
+        tf_comm.setRows(5);
+        tf_comm.setLineWrap(true);
         tf_comm.addKeyListener(new KeyListener() {
 
             public void keyTyped(KeyEvent e) {
@@ -326,42 +332,39 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
             }
 
         });
-
-        lbl_resultat.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        lbl_resultat.setForeground(new java.awt.Color(0, 0, 0));
-        lbl_resultat.setText("Resultat :");
-
-        lbl_semestre.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        lbl_semestre.setText("");
+        jScrollPane1.setViewportView(tf_comm);
 
         javax.swing.GroupLayout pann_notesLayout = new javax.swing.GroupLayout(pann_notes);
         pann_notes.setLayout(pann_notesLayout);
         pann_notesLayout.setHorizontalGroup(
             pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pann_notesLayout.createSequentialGroup()
-                .addComponent(notesS1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(notesS2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(notesS3, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(notesS4, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pann_notesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jsp_notes, javax.swing.GroupLayout.PREFERRED_SIZE, 812, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pann_notesLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(lbl_resultat, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pann_notesLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addComponent(tf_comm, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48))))
-            .addGroup(pann_notesLayout.createSequentialGroup()
                 .addGap(143, 143, 143)
                 .addComponent(lbl_semestre, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pann_notesLayout.createSequentialGroup()
+                .addGroup(pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pann_notesLayout.createSequentialGroup()
+                        .addComponent(notesS1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(notesS2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(notesS3, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(notesS4, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pann_notesLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jsp_notes, javax.swing.GroupLayout.PREFERRED_SIZE, 812, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pann_notesLayout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addComponent(lbl_resultat, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbl_resultat1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pann_notesLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         pann_notesLayout.setVerticalGroup(
             pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -376,9 +379,11 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pann_notesLayout.createSequentialGroup()
-                        .addComponent(tf_comm, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(71, 71, 71)
-                        .addComponent(lbl_resultat)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pann_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbl_resultat)
+                            .addComponent(lbl_resultat1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 18, Short.MAX_VALUE))
                     .addComponent(jsp_notes))
                 .addContainerGap())
@@ -583,6 +588,7 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
 return c;
     }});
 
+        
          try
         {
             String note="", nomColonne="";
@@ -594,6 +600,7 @@ return c;
            
                 while(rst.next())
                 {
+                    lbl_resultat1.setText(rst.getString("Res"));
                     for(i=3;i<32;i++)
                     {
                     
@@ -671,6 +678,7 @@ return c;
            
                 while(rst.next())
                 {
+                   lbl_resultat1.setText(rst.getString("Res"));
                     for(i=3;i<30;i++)
                     {
                     
@@ -749,6 +757,7 @@ return c;
            
                 while(rst.next())
                 {
+                    lbl_resultat1.setText(rst.getString("Res"));
                     for(i=3;i<26;i++)
                     {
                     
@@ -829,6 +838,7 @@ return c;
            
                 while(rst.next())
                 {
+                    lbl_resultat1.setText(rst.getString("Res"));
                     for(i=3;i<29;i++)
                     {
                     
@@ -839,7 +849,7 @@ return c;
                     modele.addRow(new Object[]{recherche_nom_matiere(nomColonne),note});
                     }
                     if(i==26)
-                    {  modele.addRow(new Object[]{"Moyenne S4",note});}
+                    {  modele.addRow(new Object[]{"Moyenne S3",note});}
                     if(i==27)
                     {modele.addRow(new Object[]{"Ptn",note});}
                     if(i==28)
@@ -882,12 +892,7 @@ return c;
              
          return nom;
      }
-    
-    private void tf_commActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_commActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_tf_commActionPerformed
-   
+       
     //Definition du menu (recherche -afficher - lister )
     class btMouseListener implements MouseListener 
         {
@@ -1003,6 +1008,7 @@ return c;
     private javax.swing.JButton bt_afficher;
     private javax.swing.JButton bt_lister;
     private javax.swing.JButton bt_rechercher;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jsp_notes;
     private javax.swing.JTable jt_notes;
     private javax.swing.JLabel lbl_absence;
@@ -1022,6 +1028,7 @@ return c;
     private javax.swing.JLabel lbl_prenom;
     private javax.swing.JLabel lbl_prenom1;
     private javax.swing.JLabel lbl_resultat;
+    private javax.swing.JLabel lbl_resultat1;
     private javax.swing.JLabel lbl_semestre;
     private javax.swing.JLabel lbl_titre;
     private javax.swing.JButton notesS1;
@@ -1031,6 +1038,6 @@ return c;
     private javax.swing.JPanel pann_cohortes;
     private javax.swing.JPanel pann_menu;
     private javax.swing.JPanel pann_notes;
-    private javax.swing.JTextField tf_comm;
+    private javax.swing.JTextArea tf_comm;
     // End of variables declaration//GEN-END:variables
 }
