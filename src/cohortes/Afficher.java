@@ -431,9 +431,6 @@ public class Afficher extends javax.swing.JFrame {
         String sqlADM = "select count(*) as count_ADM from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND Res = 'ADM' AND annee ='"+ annee +"'";
         String sqlACQ = "select count(*) as count_ACQ from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND Res = 'ACQ' AND annee ='"+ annee +"'";
         String sqlRED = "select count(*) as count_RED from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND Res = 'RED' AND annee ='"+ annee +"'";
-        /**/
-        
-        
         
         //nombre d'étudiants    
         try {
@@ -456,9 +453,7 @@ public class Afficher extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
-        
         //nombre d'étudiants ACQ
-        
          try {
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlACQ);
@@ -468,7 +463,6 @@ public class Afficher extends javax.swing.JFrame {
             ex.printStackTrace();
         }
          
-        
         //nombre d'étudiants RED
         try {
             Statement st = cnx.createStatement();
@@ -478,8 +472,6 @@ public class Afficher extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
-
         
         // MAJ nom colonnes tableau
         table_resultats.getColumnModel().getColumn(1).setHeaderValue("ADM");
@@ -504,7 +496,6 @@ public class Afficher extends javax.swing.JFrame {
         PiePlot P = (PiePlot)chart.getPlot();
         
         // Panl chart
-        
         ChartPanel myChart = new ChartPanel(chart);
         myChart.setPreferredSize(new Dimension(500, 400));
         myChart.setMouseWheelEnabled(true);
@@ -640,9 +631,8 @@ public class Afficher extends javax.swing.JFrame {
         String sqlS_RED = "select count(*) as count_S_RED from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'L' AND Res = 'RED'";
         
         
-       
+       // nombre d'étudiants Bac S
         try {
-           
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlEtu);
             rs.next();
@@ -651,9 +641,8 @@ public class Afficher extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
-        //nombre d'étudiants Bac S
+        //nombre d'étudiants Bac S ADM
         try {
-           
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlS_ADM);
             rs.next();
@@ -663,9 +652,8 @@ public class Afficher extends javax.swing.JFrame {
         }
         
         
-        //nombre d'étudiants Bac ES
+        //nombre d'étudiants Bac S RES
         try {
-           
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlS_ACQ);
             rs.next();
@@ -675,9 +663,8 @@ public class Afficher extends javax.swing.JFrame {
         }
         
         
-        //nombre d'étudiants Bac L
+        //nombre d'étudiants Bac S RED
         try {
-            
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlS_RED);
             rs.next();
@@ -736,9 +723,8 @@ public class Afficher extends javax.swing.JFrame {
         String sqlES_RED = "select count(*) as count_ES_RED from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'ES' AND Res = 'RED'";
         
         
-       
+        // nombre d'étudiants Bac ES
         try {
-           
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlEtuES);
             rs.next();
@@ -747,9 +733,8 @@ public class Afficher extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
-        //nombre d'étudiants Bac S
+        //nombre d'étudiants Bac ES ADM
         try {
-           
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlES_ADM);
             rs.next();
@@ -758,10 +743,8 @@ public class Afficher extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
-        
-        //nombre d'étudiants Bac ES
+        //nombre d'étudiants Bac ES ACQ
         try {
-           
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlES_ACQ);
             rs.next();
@@ -771,7 +754,7 @@ public class Afficher extends javax.swing.JFrame {
         }
         
         
-        //nombre d'étudiants Bac L
+        //nombre d'étudiants Bac ES RED
         try {
             
             Statement st = cnx.createStatement();
@@ -826,26 +809,24 @@ public class Afficher extends javax.swing.JFrame {
         String semestre= "s" + cbb_Semestre.getSelectedItem().toString();
         String annee= tf_annee.getText();
         
-        String sqlEtu= "select count(*) as count_etuES from etudiants, notes"+ semestre +" where annee = '"+ annee +"'AND etudiants.NE = notes"+ semestre +".NE AND Bac = 'L'";
+        String sqlEtu= "select count(*) as count_etuL from etudiants, notes"+ semestre +" where annee = '"+ annee +"'AND etudiants.NE = notes"+ semestre +".NE AND Bac = 'L'";
         String  sqlL_ADM= "select count(*) as count_L_ADM from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'L' AND Res = 'ADM'";
         String sqlL_ACQ= "select count(*) as count_L_ACQ from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'L' AND Res = 'ACQ'";
         String sqlL_RED = "select count(*) as count_L_RED from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'L' AND Res = 'RED'";
         
         
-       
+        // nombre d'étudiants Bac L
         try {
-           
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlEtu);
             rs.next();
-            nbEtudiants = rs.getInt("count_etuES");
+            nbEtudiants = rs.getInt("count_etuL");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-        //nombre d'étudiants Bac S
+        //nombre d'étudiants Bac L ADM
         try {
-           
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlL_ADM);
             rs.next();
@@ -854,10 +835,9 @@ public class Afficher extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
-        
-        //nombre d'étudiants Bac ES
+  
+        //nombre d'étudiants Bac L ACQ
         try {
-           
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlL_ACQ);
             rs.next();
@@ -867,7 +847,7 @@ public class Afficher extends javax.swing.JFrame {
         }
         
         
-        //nombre d'étudiants Bac L
+        //nombre d'étudiants Bac L RED
         try {
             
             Statement st = cnx.createStatement();
