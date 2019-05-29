@@ -35,7 +35,7 @@ import org.jfree.data.general.DefaultPieDataset;
 public class Afficher extends javax.swing.JFrame {
 
     
-    public int nbEtudiants, nbRED, nbACQ, nbADM, nbS, nbES, nbL, nbAutres;
+    public int nbEtudiants, nbRED, nbACQ, nbADM, nbS, nbES, nbL, nbAutres, nbSADM, nbSACQ, nbSRED, nbESADM, nbESACQ, nbESRED, nbLADM, nbLACQ, nbLRED;
     static Connection cnx;
     static Statement st;
     static ResultSet rst;
@@ -94,6 +94,9 @@ public class Afficher extends javax.swing.JFrame {
         tf_annee = new java.awt.TextField();
         btn_triGlobal = new javax.swing.JButton();
         btn_triFiliere = new javax.swing.JButton();
+        BacSRes = new javax.swing.JButton();
+        BacESRes = new javax.swing.JButton();
+        BacLRes = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -304,6 +307,30 @@ public class Afficher extends javax.swing.JFrame {
             }
         });
 
+        BacSRes.setVisible(false);
+        BacSRes.setText("Résultats Bac S");
+        BacSRes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BacSResActionPerformed(evt);
+            }
+        });
+
+        BacESRes.setVisible(false);
+        BacESRes.setText("Résultats Bac ES");
+        BacESRes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BacESResActionPerformed(evt);
+            }
+        });
+
+        BacLRes.setVisible(false);
+        BacLRes.setText("Résultats Bac L");
+        BacLRes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BacLResActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -311,11 +338,20 @@ public class Afficher extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(Jpanel_affichage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_triFiliere, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_triGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(798, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_triFiliere)
+                            .addComponent(btn_triGlobal, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(BacLRes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BacESRes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(167, 167, 167)
+                        .addComponent(BacSRes, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(652, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,8 +360,14 @@ public class Afficher extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(177, 177, 177)
                         .addComponent(btn_triGlobal)
-                        .addGap(103, 103, 103)
-                        .addComponent(btn_triFiliere))
+                        .addGap(60, 60, 60)
+                        .addComponent(BacSRes)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_triFiliere)
+                            .addComponent(BacESRes))
+                        .addGap(18, 18, 18)
+                        .addComponent(BacLRes))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(Jpanel_affichage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -374,6 +416,8 @@ public class Afficher extends javax.swing.JFrame {
 
     private void btn_triGlobalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_triGlobalActionPerformed
         
+        cnx=connecterDB();
+        
         //Ré-initialise PanneauData
         jPanel_pieData.removeAll();
         jPanel_pieData.repaint();
@@ -393,7 +437,6 @@ public class Afficher extends javax.swing.JFrame {
         
         //nombre d'étudiants    
         try {
-            cnx=connecterDB();
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlEtu);
             rs.next();
@@ -405,7 +448,6 @@ public class Afficher extends javax.swing.JFrame {
             
         //nombre d'étudiants ADM
         try {
-            cnx=connecterDB();
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlADM);
             rs.next();
@@ -418,7 +460,6 @@ public class Afficher extends javax.swing.JFrame {
         //nombre d'étudiants ACQ
         
          try {
-            cnx=connecterDB();
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlACQ);
             rs.next();
@@ -430,7 +471,6 @@ public class Afficher extends javax.swing.JFrame {
         
         //nombre d'étudiants RED
         try {
-            cnx=connecterDB();
             Statement st = cnx.createStatement();
             ResultSet rs= st.executeQuery(sqlRED);
             rs.next();
@@ -480,55 +520,70 @@ public class Afficher extends javax.swing.JFrame {
 
     private void btn_triFiliereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_triFiliereActionPerformed
         
+        cnx=connecterDB();
+        
+        //Affiche Filières
+        BacSRes.setVisible(true);
+        BacESRes.setVisible(true);
+        BacLRes.setVisible(true);
+        
+        
         //Ré-initialise PanneauData
         jPanel_pieData.removeAll();
         jPanel_pieData.repaint();
         
         // Préparation des requetes SQL
-        String sqlEtu = "select count(*) as count_etu from Etudiants;";
-        String sqlS = "select count(*) as count_S from Etudiants where Bac = 'S';";
-        String sqlES = "select count (*) as count_ES FROM Etudiants WHERE Bac = 'ES';";
-        String sqlL = "select count (*) as count_L FROM Etudiants WHERE Bac = 'L';";
+        String semestre= "s" + cbb_Semestre.getSelectedItem().toString();
+        String annee= tf_annee.getText();
         
-        //nombre d'étudiants
-        try (Connection conn = this.connecterDB();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sqlEtu)){
-            
+        String sqlEtu= "select count(*) as count_etu from etudiants, notes"+ semestre +" where annee = '"+ annee +"'AND etudiants.NE = notes"+ semestre +".NE";
+        String  sqlS= "select count(*) as count_S from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'S'";
+        String sqlES= "select count(*) as count_ES from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'ES'";
+        String sqlL = "select count(*) as count_L from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'L'";
+        
+        
+       
+        try {
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlEtu);
+            rs.next();
             nbEtudiants = rs.getInt("count_etu");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         
         //nombre d'étudiants Bac S
-        try (Connection conn = this.connecterDB();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sqlS)){
-                    
+        try {
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlS);
+            rs.next();
             nbS = rs.getInt("count_S");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
+        
         
         //nombre d'étudiants Bac ES
-        try (Connection conn = this.connecterDB();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sqlES)){
-            
+        try {
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlES);
+            rs.next();
             nbES = rs.getInt("count_ES");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         
+        
         //nombre d'étudiants Bac L
-        try (Connection conn = this.connecterDB();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sqlL)){
-            
+        try {
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlL);
+            rs.next();
             nbL = rs.getInt("count_L");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
+        
         
         //MAJ nom colonnes dans tableau
         table_resultats.getColumnModel().getColumn(1).setHeaderValue("Bac S");
@@ -541,6 +596,8 @@ public class Afficher extends javax.swing.JFrame {
         table_resultats.setValueAt(nbES, 0, 2);
         table_resultats.setValueAt(nbL, 0, 3);
         table_resultats.getTableHeader().resizeAndRepaint();
+        
+        jPanel_tabResult.setVisible(true);
         
         // Gestion PieChart
         DefaultPieDataset pieDataset = new DefaultPieDataset();
@@ -565,6 +622,295 @@ public class Afficher extends javax.swing.JFrame {
     private void cbb_SemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbb_SemestreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbb_SemestreActionPerformed
+
+    private void BacSResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BacSResActionPerformed
+        
+        cnx=connecterDB();
+        //Ré-initialise PanneauData
+        jPanel_pieData.removeAll();
+        jPanel_pieData.repaint();
+        
+        // Préparation des requetes SQL
+        String semestre= "s" + cbb_Semestre.getSelectedItem().toString();
+        String annee= tf_annee.getText();
+        
+        String sqlEtu= "select count(*) as count_etuS from etudiants, notes"+ semestre +" where annee = '"+ annee +"'AND etudiants.NE = notes"+ semestre +".NE AND Bac = 'S'";
+        String  sqlS_ADM= "select count(*) as count_S_ADM from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'S' AND Res = 'ADM'";
+        String sqlS_ACQ= "select count(*) as count_S_ACQ from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'ES' AND Res = 'ACQ'";
+        String sqlS_RED = "select count(*) as count_S_RED from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'L' AND Res = 'RED'";
+        
+        
+       
+        try {
+           
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlEtu);
+            rs.next();
+            nbEtudiants = rs.getInt("count_etuS");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        //nombre d'étudiants Bac S
+        try {
+           
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlS_ADM);
+            rs.next();
+            nbSADM = rs.getInt("count_S_ADM");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        //nombre d'étudiants Bac ES
+        try {
+           
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlS_ACQ);
+            rs.next();
+            nbSACQ = rs.getInt("count_S_ACQ");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        //nombre d'étudiants Bac L
+        try {
+            
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlS_RED);
+            rs.next();
+            nbSRED = rs.getInt("count_S_RED");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        //MAJ nom colonnes dans tableau
+        table_resultats.getColumnModel().getColumn(1).setHeaderValue("Admis");
+        table_resultats.getColumnModel().getColumn(2).setHeaderValue("ACQ");
+        table_resultats.getColumnModel().getColumn(3).setHeaderValue("Redoublement");
+        
+        // MAJ valeurs dans tableau
+        table_resultats.setValueAt(nbEtudiants, 0, 0);
+        table_resultats.setValueAt(nbSADM, 0, 1);
+        table_resultats.setValueAt(nbSACQ, 0, 2);
+        table_resultats.setValueAt(nbSRED, 0, 3);
+        table_resultats.getTableHeader().resizeAndRepaint();
+        
+        jPanel_tabResult.setVisible(true);
+        
+        // Gestion PieChart
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+        pieDataset.setValue("admis", new Integer(nbSADM));
+        pieDataset.setValue("ACQ", new Integer(nbSACQ));
+        pieDataset.setValue("Redoublement", new Integer(nbSRED));
+        JFreeChart chart1 = ChartFactory.createPieChart("Tri bac S", pieDataset,true, true, true);
+        PiePlot P = (PiePlot)chart1.getPlot();
+       
+        
+        // Panl chart 
+        ChartPanel myChart = new ChartPanel(chart1);
+        myChart.setPreferredSize(new Dimension(500, 400));
+        myChart.setMouseWheelEnabled(true);
+        
+        jPanel_pieData.setLayout(new java.awt.BorderLayout());
+        jPanel_pieData.add(myChart,BorderLayout.CENTER);
+        jPanel_pieData.validate();
+    }//GEN-LAST:event_BacSResActionPerformed
+
+    private void BacESResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BacESResActionPerformed
+        cnx=connecterDB();
+        //Ré-initialise PanneauData
+        jPanel_pieData.removeAll();
+        jPanel_pieData.repaint();
+        
+        // Préparation des requetes SQL
+        String semestre= "s" + cbb_Semestre.getSelectedItem().toString();
+        String annee= tf_annee.getText();
+        
+        String sqlEtuES= "select count(*) as count_etuES from etudiants, notes"+ semestre +" where annee = '"+ annee +"'AND etudiants.NE = notes"+ semestre +".NE AND Bac = 'ES'";
+        String  sqlES_ADM= "select count(*) as count_ES_ADM from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'ES' AND Res = 'ADM'";
+        String sqlES_ACQ= "select count(*) as count_ES_ACQ from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'ES' AND Res = 'ACQ'";
+        String sqlES_RED = "select count(*) as count_ES_RED from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'ES' AND Res = 'RED'";
+        
+        
+       
+        try {
+           
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlEtuES);
+            rs.next();
+            nbEtudiants = rs.getInt("count_etuES");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        //nombre d'étudiants Bac S
+        try {
+           
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlES_ADM);
+            rs.next();
+            nbESADM = rs.getInt("count_ES_ADM");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        //nombre d'étudiants Bac ES
+        try {
+           
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlES_ACQ);
+            rs.next();
+            nbESACQ = rs.getInt("count_ES_ACQ");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        //nombre d'étudiants Bac L
+        try {
+            
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlES_RED);
+            rs.next();
+            nbESRED = rs.getInt("count_ES_RED");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        //MAJ nom colonnes dans tableau
+        table_resultats.getColumnModel().getColumn(1).setHeaderValue("Admis");
+        table_resultats.getColumnModel().getColumn(2).setHeaderValue("ACQ");
+        table_resultats.getColumnModel().getColumn(3).setHeaderValue("Redoublement");
+        
+        // MAJ valeurs dans tableau
+        table_resultats.setValueAt(nbEtudiants, 0, 0);
+        table_resultats.setValueAt(nbESADM, 0, 1);
+        table_resultats.setValueAt(nbESACQ, 0, 2);
+        table_resultats.setValueAt(nbESRED, 0, 3);
+        table_resultats.getTableHeader().resizeAndRepaint();
+        
+        jPanel_tabResult.setVisible(true);
+        
+        // Gestion PieChart
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+        pieDataset.setValue("admis", new Integer(nbESADM));
+        pieDataset.setValue("ACQ", new Integer(nbESACQ));
+        pieDataset.setValue("Redoublement", new Integer(nbESRED));
+        JFreeChart chart1 = ChartFactory.createPieChart("Tri bac ES", pieDataset,true, true, true);
+        PiePlot P = (PiePlot)chart1.getPlot();
+       
+        
+        // Panl chart 
+        ChartPanel myChart = new ChartPanel(chart1);
+        myChart.setPreferredSize(new Dimension(500, 400));
+        myChart.setMouseWheelEnabled(true);
+        
+        jPanel_pieData.setLayout(new java.awt.BorderLayout());
+        jPanel_pieData.add(myChart,BorderLayout.CENTER);
+        jPanel_pieData.validate();
+    }//GEN-LAST:event_BacESResActionPerformed
+
+    private void BacLResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BacLResActionPerformed
+        cnx=connecterDB();
+        //Ré-initialise PanneauData
+        jPanel_pieData.removeAll();
+        jPanel_pieData.repaint();
+        
+        // Préparation des requetes SQL
+        String semestre= "s" + cbb_Semestre.getSelectedItem().toString();
+        String annee= tf_annee.getText();
+        
+        String sqlEtu= "select count(*) as count_etuES from etudiants, notes"+ semestre +" where annee = '"+ annee +"'AND etudiants.NE = notes"+ semestre +".NE AND Bac = 'L'";
+        String  sqlL_ADM= "select count(*) as count_L_ADM from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'L' AND Res = 'ADM'";
+        String sqlL_ACQ= "select count(*) as count_L_ACQ from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'L' AND Res = 'ACQ'";
+        String sqlL_RED = "select count(*) as count_L_RED from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'L' AND Res = 'RED'";
+        
+        
+       
+        try {
+           
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlEtu);
+            rs.next();
+            nbEtudiants = rs.getInt("count_etuES");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        //nombre d'étudiants Bac S
+        try {
+           
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlL_ADM);
+            rs.next();
+            nbLADM = rs.getInt("count_L_ADM");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        //nombre d'étudiants Bac ES
+        try {
+           
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlL_ACQ);
+            rs.next();
+            nbLACQ = rs.getInt("count_L_ACQ");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        //nombre d'étudiants Bac L
+        try {
+            
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlL_RED);
+            rs.next();
+            nbLRED = rs.getInt("count_L_RED");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        //MAJ nom colonnes dans tableau
+        table_resultats.getColumnModel().getColumn(1).setHeaderValue("Admis");
+        table_resultats.getColumnModel().getColumn(2).setHeaderValue("ACQ");
+        table_resultats.getColumnModel().getColumn(3).setHeaderValue("Redoublement");
+        
+        // MAJ valeurs dans tableau
+        table_resultats.setValueAt(nbEtudiants, 0, 0);
+        table_resultats.setValueAt(nbLADM, 0, 1);
+        table_resultats.setValueAt(nbLACQ, 0, 2);
+        table_resultats.setValueAt(nbLRED, 0, 3);
+        table_resultats.getTableHeader().resizeAndRepaint();
+        
+        jPanel_tabResult.setVisible(true);
+        
+        // Gestion PieChart
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+        pieDataset.setValue("admis", new Integer(nbLADM));
+        pieDataset.setValue("ACQ", new Integer(nbLACQ));
+        pieDataset.setValue("Redoublement", new Integer(nbLRED));
+        JFreeChart chart1 = ChartFactory.createPieChart("Tri bac ES", pieDataset,true, true, true);
+        PiePlot P = (PiePlot)chart1.getPlot();
+       
+        
+        // Panl chart 
+        ChartPanel myChart = new ChartPanel(chart1);
+        myChart.setPreferredSize(new Dimension(500, 400));
+        myChart.setMouseWheelEnabled(true);
+        
+        jPanel_pieData.setLayout(new java.awt.BorderLayout());
+        jPanel_pieData.add(myChart,BorderLayout.CENTER);
+        jPanel_pieData.validate();
+    }//GEN-LAST:event_BacLResActionPerformed
     
     
     
@@ -671,6 +1017,9 @@ public class Afficher extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BacESRes;
+    private javax.swing.JButton BacLRes;
+    private javax.swing.JButton BacSRes;
     private javax.swing.JPanel Jpanel_affichage;
     private javax.swing.JButton bt_afficher;
     private javax.swing.JButton bt_lister;
