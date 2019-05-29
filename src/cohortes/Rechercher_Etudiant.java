@@ -95,6 +95,7 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -839,7 +840,7 @@ return c;
                     modele.addRow(new Object[]{recherche_nom_matiere(nomColonne),note});
                     }
                     if(i==26)
-                    {  modele.addRow(new Object[]{"Moyenne S4",note});}
+                    {  modele.addRow(new Object[]{"Moyenne S3",note});}
                     if(i==27)
                     {modele.addRow(new Object[]{"Ptn",note});}
                     if(i==28)
