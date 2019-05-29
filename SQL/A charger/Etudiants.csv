@@ -1,6 +1,7 @@
 2018;P001;GAUTHIER Charlotte;GAUTHIER;Charlotte;cg@free.fr;ES;ASPE;1;Fun
 2018;P002;BENZEMA Alix;BENZEMA;Alix;ba@free.fr;L;ASPE;2;Cool
 2018;P003;TOUCHE Aymeric;TOUCHE;Aymeric;ta@free.fr;S;ASPE;1;Hey
+<<<<<<< HEAD
 2018;P004;BOTTET Stéphane;BOTTET;Stéphane;bs@free.fr;S;ASPE;2;Ahh 
 2018;P005;HENINI Leo;HENINI;Leo;hl@free.fr;S;ASPE;1;Bou
 2017;P006;BAT Paulin;BAT;Paulin;bp@free.fr;S;ASPE;2;AHHHH
@@ -8,3 +9,12 @@
 2017;P008;FERRAND Gerome;FERRAND;Gerome;fg@free.fr;S;ASPE;2;Moh
 2017;P009;DUFOUR Alexandre;DUFOUR ;Alexandre;da@free.fr;S;ASPE;1;Meuf
 2017;P010;SALOMON Louis;SALOMON;Louis;sl@free.fr;S;ASPE;2;Meuh
+=======
+2017;P004;BOTTET Stéphane;BOTTET;Stéphane;bs@free.fr;S;ASPE;2;Ahh 
+2017;P005;HENINI Leo;HENINI;Leo;hl@free.fr;S;ASPE;1;Bou
+2017;P006;BAT Paulin;BAT;Paulin;bp@free.fr;S;ASPE;2;AHHHH
+2016;P007;MAMOUNI Yassir;MAMOUNI;Yassir;my@free.fr;S;ASPE;1;Mah
+2016;P008;FERRAND Gerome;FERRAND;Gerome;fg@free.fr;S;ASPE;2;Moh
+2016;P009;DUFOUR Alexandre;DUFOUR ;Alexandre;da@free.fr;S;ASPE;1;Meuf
+2016;P010;SALOMON Louis;SALOMON;Louis;sl@free.fr;S;ASPE;2;Meuh
+>>>>>>> d5be34860554624a9548b29a93b1d935acf6e46b
