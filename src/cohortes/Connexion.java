@@ -260,7 +260,6 @@ public class Connexion extends javax.swing.JFrame {
                            this.setVisible(false);
                         new Accueil().setVisible(true);
                   }
-                  System.out.println();
               }
           }catch(Exception ex){
               ex.printStackTrace();
