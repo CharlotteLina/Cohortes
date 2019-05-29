@@ -6,9 +6,25 @@
 package cohortes;
 
 
+import static cohortes.Rechercher.cnx;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.general.DefaultPieDataset;
 
 
 
@@ -18,12 +34,34 @@ import javax.swing.ImageIcon;
  */
 public class Afficher extends javax.swing.JFrame {
 
+    
+    public int nbEtudiants, nbRED, nbACQ, nbADM, nbS, nbES, nbL, nbAutres;
+    static Connection cnx;
+    static Statement st;
+    static ResultSet rst;
+    
     /**
      * Creates new form Connexion
      */
     public Afficher() {
         initComponents();
+        jPanel_tabResult.setVisible(false);
     }
+    
+        private static Connection  connecterDB(){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            String url="jdbc:mysql://localhost:3306/PTUT?zeroDateTimeBehavior=convertToNull";
+            String user="root";
+            String password="";
+            Connection cnx=DriverManager.getConnection(url,user,password);
+            System.out.println("Connexion bien établié");
+            return cnx;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,6 +72,7 @@ public class Afficher extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFrame1 = new javax.swing.JFrame();
         pann_cohortes = new javax.swing.JPanel();
         lbl_titre = new javax.swing.JLabel();
         ImageIcon image=new ImageIcon("src/gif/Logo.jpg");
@@ -44,6 +83,28 @@ public class Afficher extends javax.swing.JFrame {
         bt_afficher = new javax.swing.JButton();
         bt_lister = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        Jpanel_affichage = new javax.swing.JPanel();
+        lbl_Semestre = new javax.swing.JLabel();
+        cbb_Semestre = new javax.swing.JComboBox<>();
+        lbl_Annee = new javax.swing.JLabel();
+        jPanel_pieData = new javax.swing.JPanel();
+        jPanel_tabResult = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table_resultats = new javax.swing.JTable();
+        tf_annee = new java.awt.TextField();
+        btn_triGlobal = new javax.swing.JButton();
+        btn_triFiliere = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -51,7 +112,6 @@ public class Afficher extends javax.swing.JFrame {
         setResizable(false);
 
         pann_cohortes.setBackground(new java.awt.Color(0, 0, 0));
-        pann_cohortes.setForeground(new java.awt.Color(0, 0, 0));
 
         lbl_titre.setBackground(new java.awt.Color(102, 255, 51));
         lbl_titre.setFont(new java.awt.Font("Elephant", 1, 48)); // NOI18N
@@ -69,7 +129,7 @@ public class Afficher extends javax.swing.JFrame {
                 .addComponent(lbl_logo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_titre, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pann_cohortesLayout.setVerticalGroup(
             pann_cohortesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,7 +145,6 @@ public class Afficher extends javax.swing.JFrame {
 
         bt_rechercher.setBackground(new java.awt.Color(102, 255, 204));
         bt_rechercher.setFont(new java.awt.Font("Leelawadee UI", 1, 24)); // NOI18N
-        bt_rechercher.setForeground(new java.awt.Color(0, 0, 0));
         bt_rechercher.setText("Rechercher");
         bt_rechercher.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         bt_rechercher.addActionListener(new java.awt.event.ActionListener() {
@@ -97,13 +156,11 @@ public class Afficher extends javax.swing.JFrame {
 
         bt_afficher.setBackground(new java.awt.Color(102, 255, 204));
         bt_afficher.setFont(new java.awt.Font("Leelawadee", 1, 24)); // NOI18N
-        bt_afficher.setForeground(new java.awt.Color(0, 0, 0));
         bt_afficher.setText("Afficher");
         bt_afficher.addMouseListener( new btMouseListener());
 
         bt_lister.setBackground(new java.awt.Color(102, 255, 204));
         bt_lister.setFont(new java.awt.Font("Leelawadee", 1, 24)); // NOI18N
-        bt_lister.setForeground(new java.awt.Color(0, 0, 0));
         bt_lister.setText("Lister");
         bt_lister.addMouseListener( new btMouseListener());
 
@@ -128,20 +185,151 @@ public class Afficher extends javax.swing.JFrame {
                 .addComponent(bt_afficher, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
                 .addComponent(bt_lister, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(220, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+
+        lbl_Semestre.setText("Semestre");
+
+        cbb_Semestre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+        cbb_Semestre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbb_SemestreActionPerformed(evt);
+            }
+        });
+
+        lbl_Annee.setText("Année");
+
+        jPanel_pieData.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel_pieData.setMaximumSize(new java.awt.Dimension(400, 500));
+
+        javax.swing.GroupLayout jPanel_pieDataLayout = new javax.swing.GroupLayout(jPanel_pieData);
+        jPanel_pieData.setLayout(jPanel_pieDataLayout);
+        jPanel_pieDataLayout.setHorizontalGroup(
+            jPanel_pieDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 477, Short.MAX_VALUE)
+        );
+        jPanel_pieDataLayout.setVerticalGroup(
+            jPanel_pieDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 346, Short.MAX_VALUE)
+        );
+
+        table_resultats.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null}
+            },
+            new String [] {
+                "nb Etudiants", "ADM", "ACQ", "RED"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(table_resultats);
+
+        javax.swing.GroupLayout jPanel_tabResultLayout = new javax.swing.GroupLayout(jPanel_tabResult);
+        jPanel_tabResult.setLayout(jPanel_tabResultLayout);
+        jPanel_tabResultLayout.setHorizontalGroup(
+            jPanel_tabResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_tabResultLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63))
+        );
+        jPanel_tabResultLayout.setVerticalGroup(
+            jPanel_tabResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_tabResultLayout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
+        );
+
+        javax.swing.GroupLayout Jpanel_affichageLayout = new javax.swing.GroupLayout(Jpanel_affichage);
+        Jpanel_affichage.setLayout(Jpanel_affichageLayout);
+        Jpanel_affichageLayout.setHorizontalGroup(
+            Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Jpanel_affichageLayout.createSequentialGroup()
+                .addGap(99, 99, 99)
+                .addComponent(lbl_Semestre)
+                .addGap(18, 18, 18)
+                .addComponent(cbb_Semestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(130, 130, 130)
+                .addComponent(lbl_Annee)
+                .addGap(32, 32, 32)
+                .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(Jpanel_affichageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel_tabResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Jpanel_affichageLayout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
+                .addComponent(jPanel_pieData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
+        );
+        Jpanel_affichageLayout.setVerticalGroup(
+            Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Jpanel_affichageLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbl_Semestre)
+                        .addComponent(cbb_Semestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbl_Annee))
+                    .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel_pieData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(jPanel_tabResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+        );
+
+        btn_triGlobal.setText("tri global");
+        btn_triGlobal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_triGlobalActionPerformed(evt);
+            }
+        });
+
+        btn_triFiliere.setText("tri par filière");
+        btn_triFiliere.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_triFiliereActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1103, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(Jpanel_affichage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btn_triFiliere, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_triGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(798, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 534, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(177, 177, 177)
+                        .addComponent(btn_triGlobal)
+                        .addGap(103, 103, 103)
+                        .addComponent(btn_triFiliere))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Jpanel_affichage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -156,7 +344,7 @@ public class Afficher extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(pann_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -169,13 +357,13 @@ public class Afficher extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_nompage)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pann_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pann_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(257, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1420, 766));
+        setSize(new java.awt.Dimension(1420, 1027));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -183,6 +371,203 @@ public class Afficher extends javax.swing.JFrame {
         // TODO add your handling code here:
  
     }//GEN-LAST:event_bt_rechercherActionPerformed
+
+    private void btn_triGlobalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_triGlobalActionPerformed
+        
+        //Ré-initialise PanneauData
+        jPanel_pieData.removeAll();
+        jPanel_pieData.repaint();
+        
+        
+        
+        // Préparation des requetes SQL
+        String semestre= "s" + cbb_Semestre.getSelectedItem().toString();
+        String annee= tf_annee.getText();
+        String sqlEtu = "select count(*) as count_etu from etudiants, notes"+ semestre +" where annee = '"+ annee +"'AND etudiants.NE = notes"+ semestre +".NE ";
+        String sqlADM = "select count(*) as count_ADM from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND Res = 'ADM' AND annee ='"+ annee +"'";
+        String sqlACQ = "select count(*) as count_ACQ from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND Res = 'ACQ' AND annee ='"+ annee +"'";
+        String sqlRED = "select count(*) as count_RED from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND Res = 'RED' AND annee ='"+ annee +"'";
+        /**/
+        
+        
+        
+        //nombre d'étudiants    
+        try {
+            cnx=connecterDB();
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlEtu);
+            rs.next();
+            nbEtudiants = rs.getInt("count_etu");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+            
+            
+        //nombre d'étudiants ADM
+        try {
+            cnx=connecterDB();
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlADM);
+            rs.next();
+            nbADM = rs.getInt("count_ADM");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        //nombre d'étudiants ACQ
+        
+         try {
+            cnx=connecterDB();
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlACQ);
+            rs.next();
+            nbACQ = rs.getInt("count_ACQ");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+         
+        
+        //nombre d'étudiants RED
+        try {
+            cnx=connecterDB();
+            Statement st = cnx.createStatement();
+            ResultSet rs= st.executeQuery(sqlRED);
+            rs.next();
+            nbRED = rs.getInt("count_RED");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+
+        
+        // MAJ nom colonnes tableau
+        table_resultats.getColumnModel().getColumn(1).setHeaderValue("ADM");
+        table_resultats.getColumnModel().getColumn(2).setHeaderValue("ACQ");
+        table_resultats.getColumnModel().getColumn(3).setHeaderValue("RED");
+        
+        // MAJ valeaurs tableau
+        table_resultats.setValueAt(nbEtudiants, 0, 0);
+        table_resultats.setValueAt(nbADM, 0, 1);
+        table_resultats.setValueAt(nbACQ, 0, 2);
+        table_resultats.setValueAt(nbRED, 0, 3);
+        table_resultats.getTableHeader().resizeAndRepaint();
+        
+        jPanel_tabResult.setVisible(true);
+
+        // Gestion PieChart
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+        pieDataset.setValue("ADM", new Integer(nbADM));
+        pieDataset.setValue("ACQ", new Integer(nbACQ));
+        pieDataset.setValue("RED", new Integer(nbRED));
+        JFreeChart chart = ChartFactory.createPieChart("Tri Global", pieDataset,true, true, true);
+        PiePlot P = (PiePlot)chart.getPlot();
+        
+        // Panl chart
+        
+        ChartPanel myChart = new ChartPanel(chart);
+        myChart.setPreferredSize(new Dimension(500, 400));
+        myChart.setMouseWheelEnabled(true);
+        
+        jPanel_pieData.setLayout(new java.awt.BorderLayout());
+        jPanel_pieData.add(myChart,BorderLayout.CENTER);
+        jPanel_pieData.validate();
+        
+        
+       
+       
+    }//GEN-LAST:event_btn_triGlobalActionPerformed
+
+    private void btn_triFiliereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_triFiliereActionPerformed
+        
+        //Ré-initialise PanneauData
+        jPanel_pieData.removeAll();
+        jPanel_pieData.repaint();
+        
+        // Préparation des requetes SQL
+        String sqlEtu = "select count(*) as count_etu from Etudiants;";
+        String sqlS = "select count(*) as count_S from Etudiants where Bac = 'S';";
+        String sqlES = "select count (*) as count_ES FROM Etudiants WHERE Bac = 'ES';";
+        String sqlL = "select count (*) as count_L FROM Etudiants WHERE Bac = 'L';";
+        
+        //nombre d'étudiants
+        try (Connection conn = this.connecterDB();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sqlEtu)){
+            
+            nbEtudiants = rs.getInt("count_etu");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        //nombre d'étudiants Bac S
+        try (Connection conn = this.connecterDB();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sqlS)){
+                    
+            nbS = rs.getInt("count_S");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        //nombre d'étudiants Bac ES
+        try (Connection conn = this.connecterDB();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sqlES)){
+            
+            nbES = rs.getInt("count_ES");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        //nombre d'étudiants Bac L
+        try (Connection conn = this.connecterDB();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sqlL)){
+            
+            nbL = rs.getInt("count_L");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        //MAJ nom colonnes dans tableau
+        table_resultats.getColumnModel().getColumn(1).setHeaderValue("Bac S");
+        table_resultats.getColumnModel().getColumn(2).setHeaderValue("Bac ES");
+        table_resultats.getColumnModel().getColumn(3).setHeaderValue("Bac L");
+        
+        // MAJ valeurs dans tableau
+        table_resultats.setValueAt(nbEtudiants, 0, 0);
+        table_resultats.setValueAt(nbS, 0, 1);
+        table_resultats.setValueAt(nbES, 0, 2);
+        table_resultats.setValueAt(nbL, 0, 3);
+        table_resultats.getTableHeader().resizeAndRepaint();
+        
+        // Gestion PieChart
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+        pieDataset.setValue("S", new Integer(nbS));
+        pieDataset.setValue("ES", new Integer(nbES));
+        pieDataset.setValue("L", new Integer(nbL));
+        JFreeChart chart1 = ChartFactory.createPieChart("Tri par filière", pieDataset,true, true, true);
+        PiePlot P = (PiePlot)chart1.getPlot();
+       
+        
+        // Panl chart 
+        ChartPanel myChart = new ChartPanel(chart1);
+        myChart.setPreferredSize(new Dimension(500, 400));
+        myChart.setMouseWheelEnabled(true);
+        
+        jPanel_pieData.setLayout(new java.awt.BorderLayout());
+        jPanel_pieData.add(myChart,BorderLayout.CENTER);
+        jPanel_pieData.validate();
+        
+    }//GEN-LAST:event_btn_triFiliereActionPerformed
+
+    private void cbb_SemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbb_SemestreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbb_SemestreActionPerformed
+    
+    
+    
     class btMouseListener implements MouseListener 
         {
 
@@ -276,6 +661,7 @@ public class Afficher extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Afficher maFenetre = new Afficher();
+                maFenetre.setResizable( true );
                 maFenetre.setVisible(true);
                 maFenetre.setSize(1400,800);
                 
@@ -285,14 +671,26 @@ public class Afficher extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Jpanel_affichage;
     private javax.swing.JButton bt_afficher;
     private javax.swing.JButton bt_lister;
     private javax.swing.JButton bt_rechercher;
+    private javax.swing.JButton btn_triFiliere;
+    private javax.swing.JButton btn_triGlobal;
+    private javax.swing.JComboBox<String> cbb_Semestre;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel_pieData;
+    private javax.swing.JPanel jPanel_tabResult;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_Annee;
+    private javax.swing.JLabel lbl_Semestre;
     private javax.swing.JLabel lbl_logo;
     private javax.swing.JLabel lbl_nompage;
     private javax.swing.JLabel lbl_titre;
     private javax.swing.JPanel pann_cohortes;
     private javax.swing.JPanel pann_menu;
+    private javax.swing.JTable table_resultats;
+    private java.awt.TextField tf_annee;
     // End of variables declaration//GEN-END:variables
 }
