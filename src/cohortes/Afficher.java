@@ -30,7 +30,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
- * @author Chachou
+ * @author Aymeric
  */
 public class Afficher extends javax.swing.JFrame {
 
@@ -627,8 +627,8 @@ public class Afficher extends javax.swing.JFrame {
         
         String sqlEtu= "select count(*) as count_etuS from etudiants, notes"+ semestre +" where annee = '"+ annee +"'AND etudiants.NE = notes"+ semestre +".NE AND Bac = 'S'";
         String  sqlS_ADM= "select count(*) as count_S_ADM from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'S' AND Res = 'ADM'";
-        String sqlS_ACQ= "select count(*) as count_S_ACQ from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'ES' AND Res = 'ACQ'";
-        String sqlS_RED = "select count(*) as count_S_RED from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'L' AND Res = 'RED'";
+        String sqlS_ACQ= "select count(*) as count_S_ACQ from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'S' AND Res = 'ACQ'";
+        String sqlS_RED = "select count(*) as count_S_RED from etudiants, notes"+ semestre +" where etudiants.NE = notes"+ semestre +".NE AND annee ='"+ annee +"' AND Bac = 'S' AND Res = 'RED'";
         
         
        // nombre d'étudiants Bac S
