@@ -10,6 +10,8 @@ import static cohortes.Rechercher.cnx;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
@@ -260,7 +262,7 @@ public class Afficher extends javax.swing.JFrame {
                 .addGap(0, 53, Short.MAX_VALUE))
         );
 
-        tf_annee.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tf_annee.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout Jpanel_affichageLayout = new javax.swing.GroupLayout(Jpanel_affichage);
         Jpanel_affichage.setLayout(Jpanel_affichageLayout);
@@ -274,7 +276,7 @@ public class Afficher extends javax.swing.JFrame {
                 .addGap(135, 135, 135)
                 .addComponent(lbl_Annee)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(Jpanel_affichageLayout.createSequentialGroup()
                 .addContainerGap()
@@ -293,7 +295,7 @@ public class Afficher extends javax.swing.JFrame {
                     .addComponent(lbl_Semestre)
                     .addComponent(cbb_Semestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_Annee)
-                    .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(jPanel_pieData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)

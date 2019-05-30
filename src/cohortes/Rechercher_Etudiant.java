@@ -63,12 +63,12 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
         
         modelNotesS1=new DefaultTableModel();
         initComponents();
+           cnx=connecterDB();
         
         //Initilisation des champs en fonction des l'étudiant
          try
          {
-             
-              cnx=connecterDB(); 
+              
               st=cnx.createStatement();
  
               rst=st.executeQuery("Select * from etudiants where Nom1 ='"+NomPrenom+"'");
@@ -593,7 +593,6 @@ return c;
         {
             String note="", nomColonne="";
             int i;
-            cnx=connecterDB();
             st=cnx.createStatement();
             String ne= lbl_nE1.getText();
             rst=st.executeQuery("Select * from notess1 where NE like'"+ne+"'");
@@ -671,7 +670,6 @@ return c;
         {
             String note="", nomColonne="";
             int i;
-            cnx=connecterDB();
             st=cnx.createStatement();
             String ne= lbl_nE1.getText();
             rst=st.executeQuery("Select * from notess2 where NE like'"+ne+"'");
@@ -750,7 +748,6 @@ return c;
         {
             String note="", nomColonne="";
             int i;
-            cnx=connecterDB();
             st=cnx.createStatement();
             String ne= lbl_nE1.getText();
             rst=st.executeQuery("Select * from notess3 where NE like'"+ne+"'");
@@ -831,7 +828,6 @@ return c;
         {
             String note="", nomColonne="";
             int i;
-            cnx=connecterDB();
             st=cnx.createStatement();
             String ne= lbl_nE1.getText();
             rst=st.executeQuery("Select * from notess4 where NE like'"+ne+"'");
@@ -871,7 +867,6 @@ return c;
            private String recherche_nom_matiere(String M) throws SQLException
      {
          String nom="";
-             cnx=connecterDB();
              st=cnx.createStatement();
              
             rstSSMat=st.executeQuery("Select * from sous_matieres where id_sous_matiere like '"+M+"'");
