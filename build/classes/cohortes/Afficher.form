@@ -323,13 +323,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-<<<<<<< HEAD
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbl_Semestre" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbb_Semestre" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbl_Annee" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tf_annee" alignment="0" min="-2" max="-2" attributes="0"/>
-=======
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="tf_annee" alignment="0" min="-2" pref="33" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -337,7 +335,6 @@
                               <Component id="cbb_Semestre" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lbl_Annee" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
->>>>>>> 6dd192885556413896a2184305c0bd66b74bf5e0
                       </Group>
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                       <Component id="jPanel_pieData" min="-2" max="-2" attributes="0"/>
