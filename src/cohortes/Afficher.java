@@ -151,7 +151,6 @@ public class Afficher extends javax.swing.JFrame {
 
         bt_rechercher.setBackground(new java.awt.Color(102, 255, 204));
         bt_rechercher.setFont(new java.awt.Font("Leelawadee UI", 1, 24)); // NOI18N
-        bt_rechercher.setForeground(new java.awt.Color(0, 0, 0));
         bt_rechercher.setText("Rechercher");
         bt_rechercher.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         bt_rechercher.addActionListener(new java.awt.event.ActionListener() {
@@ -163,13 +162,11 @@ public class Afficher extends javax.swing.JFrame {
 
         bt_afficher.setBackground(new java.awt.Color(102, 255, 204));
         bt_afficher.setFont(new java.awt.Font("Leelawadee", 1, 24)); // NOI18N
-        bt_afficher.setForeground(new java.awt.Color(0, 0, 0));
         bt_afficher.setText("Afficher");
         bt_afficher.addMouseListener( new btMouseListener());
 
         bt_lister.setBackground(new java.awt.Color(102, 255, 204));
         bt_lister.setFont(new java.awt.Font("Leelawadee", 1, 24)); // NOI18N
-        bt_lister.setForeground(new java.awt.Color(0, 0, 0));
         bt_lister.setText("Lister");
         bt_lister.addMouseListener( new btMouseListener());
 
@@ -291,11 +288,20 @@ public class Afficher extends javax.swing.JFrame {
             Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Jpanel_affichageLayout.createSequentialGroup()
                 .addContainerGap()
+<<<<<<< HEAD
                 .addGroup(Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_Semestre)
                     .addComponent(cbb_Semestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_Annee)
                     .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+=======
+                .addGroup(Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbl_Semestre)
+                        .addComponent(cbb_Semestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbl_Annee)))
+>>>>>>> 6dd192885556413896a2184305c0bd66b74bf5e0
                 .addGap(24, 24, 24)
                 .addComponent(jPanel_pieData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
@@ -305,7 +311,6 @@ public class Afficher extends javax.swing.JFrame {
 
         btn_triGlobal.setBackground(new java.awt.Color(0, 255, 204));
         btn_triGlobal.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        btn_triGlobal.setForeground(new java.awt.Color(0, 0, 0));
         btn_triGlobal.setText("tri global");
         btn_triGlobal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -315,7 +320,6 @@ public class Afficher extends javax.swing.JFrame {
 
         btn_triFiliere.setBackground(new java.awt.Color(0, 255, 204));
         btn_triFiliere.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        btn_triFiliere.setForeground(new java.awt.Color(0, 0, 0));
         btn_triFiliere.setText("tri par filière");
         btn_triFiliere.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -326,7 +330,6 @@ public class Afficher extends javax.swing.JFrame {
         BacSRes.setVisible(false);
         BacSRes.setBackground(new java.awt.Color(102, 255, 204));
         BacSRes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        BacSRes.setForeground(new java.awt.Color(0, 0, 0));
         BacSRes.setText("Résultats Bac S");
         BacSRes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -337,7 +340,6 @@ public class Afficher extends javax.swing.JFrame {
         BacESRes.setVisible(false);
         BacESRes.setBackground(new java.awt.Color(102, 255, 204));
         BacESRes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        BacESRes.setForeground(new java.awt.Color(0, 0, 0));
         BacESRes.setText("Résultats Bac ES");
         BacESRes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -348,7 +350,6 @@ public class Afficher extends javax.swing.JFrame {
         BacLRes.setVisible(false);
         BacLRes.setBackground(new java.awt.Color(102, 255, 204));
         BacLRes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        BacLRes.setForeground(new java.awt.Color(0, 0, 0));
         BacLRes.setText("Résultats Bac L");
         BacLRes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -437,8 +438,7 @@ public class Afficher extends javax.swing.JFrame {
 
     private void btn_triGlobalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_triGlobalActionPerformed
         
-        cnx=connecterDB();
-        
+       
         //Ré-initialise PanneauData
         jPanel_pieData.removeAll();
         jPanel_pieData.repaint();
@@ -537,7 +537,7 @@ public class Afficher extends javax.swing.JFrame {
 
     private void btn_triFiliereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_triFiliereActionPerformed
         
-        cnx=connecterDB();
+        
         
         //Affiche Filières
         BacSRes.setVisible(true);
@@ -642,7 +642,7 @@ public class Afficher extends javax.swing.JFrame {
 
     private void BacSResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BacSResActionPerformed
         
-        cnx=connecterDB();
+        
         //Ré-initialise PanneauData
         jPanel_pieData.removeAll();
         jPanel_pieData.repaint();
@@ -734,7 +734,7 @@ public class Afficher extends javax.swing.JFrame {
     }//GEN-LAST:event_BacSResActionPerformed
 
     private void BacESResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BacESResActionPerformed
-        cnx=connecterDB();
+        
         //Ré-initialise PanneauData
         jPanel_pieData.removeAll();
         jPanel_pieData.repaint();
@@ -826,7 +826,7 @@ public class Afficher extends javax.swing.JFrame {
     }//GEN-LAST:event_BacESResActionPerformed
 
     private void BacLResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BacLResActionPerformed
-        cnx=connecterDB();
+        
         //Ré-initialise PanneauData
         jPanel_pieData.removeAll();
         jPanel_pieData.repaint();
@@ -1016,6 +1016,7 @@ public class Afficher extends javax.swing.JFrame {
                 maFenetre.setResizable( true );
                 maFenetre.setVisible(true);
                 maFenetre.setSize(1400,800);
+                cnx=connecterDB();
                 
 
             }
