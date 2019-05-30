@@ -872,17 +872,17 @@ return c;
             rstSSMat=st.executeQuery("Select * from sous_matieres where id_sous_matiere like '"+M+"'");
              while(rstSSMat.next())
              {
-                nom=rstSSMat.getNString(2);  
+                nom=rstSSMat.getString(2);  
              }
              rstMat=st.executeQuery("Select * from matieres where id_matiere like '"+M+"'");
              while(rstMat.next())
              {
-                nom=rstMat.getNString(2);  
+                nom=rstMat.getString(2);  
              }
              rstUE=st.executeQuery("Select * from UE ue where id_UE like '"+M+"'");
              while(rstUE.next())
              {
-                nom=rstUE.getNString(2);  
+                nom=rstUE.getString(2);  
              }
              
          return nom;
