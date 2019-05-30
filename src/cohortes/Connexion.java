@@ -65,6 +65,7 @@ public class Connexion extends javax.swing.JFrame {
         bt_connexion = new javax.swing.JButton();
         ImageIcon image=new ImageIcon("src/gif/Logo.jpg");
         lbl_logo = new javax.swing.JLabel(image);
+        lbl_erreur = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -197,6 +198,10 @@ public class Connexion extends javax.swing.JFrame {
 
         lbl_logo.setText("");
 
+        lbl_erreur.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbl_erreur.setForeground(new java.awt.Color(255, 0, 0));
+        lbl_erreur.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -204,6 +209,8 @@ public class Connexion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(lbl_logo, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(315, 315, 315)
+                .addComponent(lbl_erreur, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +234,9 @@ public class Connexion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(pann_bouton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbl_logo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_logo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_erreur, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30))
         );
 
@@ -254,13 +263,15 @@ public class Connexion extends javax.swing.JFrame {
               String identifiant=tf_identifiant.getText();
               String motDePasse=pf_mdp.getText();
               rst=st.executeQuery("select * from UTILISATEURS");
-              while(rst.next()){
+              while(rst.next())
+              {
                   if(rst.getString("nom_user").equals(identifiant) &&rst.getString("mdp_user").equals(motDePasse))
                   {
                            this.setVisible(false);
-                        new Accueil().setVisible(true);
+                            new Accueil().setVisible(true);
                   }
               }
+              lbl_erreur.setText("Login ou mot de passe incorrect");
           }catch(Exception ex){
               ex.printStackTrace();
           } 
@@ -321,6 +332,7 @@ public class Connexion extends javax.swing.JFrame {
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_connexion;
+    private javax.swing.JLabel lbl_erreur;
     private javax.swing.JLabel lbl_identifiant;
     private javax.swing.JLabel lbl_logo;
     private javax.swing.JLabel lbl_mdp;

@@ -106,7 +106,7 @@ public class Rechercher extends javax.swing.JFrame {
                 .addComponent(lbl_logo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_titre, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
         pann_cohortesLayout.setVerticalGroup(
             pann_cohortesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,8 +216,8 @@ public class Rechercher extends javax.swing.JFrame {
             }
         });
 
-        lbl_erreur.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lbl_erreur.setForeground(new java.awt.Color(255, 51, 51));
+        lbl_erreur.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
+        lbl_erreur.setForeground(new java.awt.Color(255, 0, 0));
 
         javax.swing.GroupLayout pann_rechecherLayout = new javax.swing.GroupLayout(pann_rechecher);
         pann_rechecher.setLayout(pann_rechecherLayout);
@@ -367,7 +367,7 @@ public class Rechercher extends javax.swing.JFrame {
                 .addContainerGap(72, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1420, 766));
+        setSize(new java.awt.Dimension(1418, 766));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

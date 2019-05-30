@@ -8,6 +8,7 @@ package cohortes;
 
 import static cohortes.Rechercher.cnx;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -129,9 +130,9 @@ public class Afficher extends javax.swing.JFrame {
         pann_cohortesLayout.setHorizontalGroup(
             pann_cohortesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pann_cohortesLayout.createSequentialGroup()
-                .addComponent(lbl_logo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbl_logo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_titre, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbl_titre, javax.swing.GroupLayout.PREFERRED_SIZE, 1161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pann_cohortesLayout.setVerticalGroup(
@@ -148,6 +149,7 @@ public class Afficher extends javax.swing.JFrame {
 
         bt_rechercher.setBackground(new java.awt.Color(102, 255, 204));
         bt_rechercher.setFont(new java.awt.Font("Leelawadee UI", 1, 24)); // NOI18N
+        bt_rechercher.setForeground(new java.awt.Color(0, 0, 0));
         bt_rechercher.setText("Rechercher");
         bt_rechercher.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         bt_rechercher.addActionListener(new java.awt.event.ActionListener() {
@@ -159,11 +161,13 @@ public class Afficher extends javax.swing.JFrame {
 
         bt_afficher.setBackground(new java.awt.Color(102, 255, 204));
         bt_afficher.setFont(new java.awt.Font("Leelawadee", 1, 24)); // NOI18N
+        bt_afficher.setForeground(new java.awt.Color(0, 0, 0));
         bt_afficher.setText("Afficher");
         bt_afficher.addMouseListener( new btMouseListener());
 
         bt_lister.setBackground(new java.awt.Color(102, 255, 204));
         bt_lister.setFont(new java.awt.Font("Leelawadee", 1, 24)); // NOI18N
+        bt_lister.setForeground(new java.awt.Color(0, 0, 0));
         bt_lister.setText("Lister");
         bt_lister.addMouseListener( new btMouseListener());
 
@@ -193,8 +197,10 @@ public class Afficher extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
 
+        lbl_Semestre.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lbl_Semestre.setText("Semestre");
 
+        cbb_Semestre.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cbb_Semestre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
         cbb_Semestre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,6 +208,7 @@ public class Afficher extends javax.swing.JFrame {
             }
         });
 
+        lbl_Annee.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         lbl_Annee.setText("Année");
 
         jPanel_pieData.setBackground(new java.awt.Color(255, 255, 255));
@@ -218,6 +225,7 @@ public class Afficher extends javax.swing.JFrame {
             .addGap(0, 346, Short.MAX_VALUE)
         );
 
+        table_resultats.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         table_resultats.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null}
@@ -240,32 +248,33 @@ public class Afficher extends javax.swing.JFrame {
         jPanel_tabResult.setLayout(jPanel_tabResultLayout);
         jPanel_tabResultLayout.setHorizontalGroup(
             jPanel_tabResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_tabResultLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel_tabResultLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel_tabResultLayout.setVerticalGroup(
             jPanel_tabResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_tabResultLayout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+            .addGroup(jPanel_tabResultLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addGap(0, 53, Short.MAX_VALUE))
         );
+
+        tf_annee.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout Jpanel_affichageLayout = new javax.swing.GroupLayout(Jpanel_affichage);
         Jpanel_affichage.setLayout(Jpanel_affichageLayout);
         Jpanel_affichageLayout.setHorizontalGroup(
             Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Jpanel_affichageLayout.createSequentialGroup()
-                .addGap(99, 99, 99)
+                .addGap(69, 69, 69)
                 .addComponent(lbl_Semestre)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbb_Semestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(130, 130, 130)
+                .addGap(135, 135, 135)
                 .addComponent(lbl_Annee)
-                .addGap(32, 32, 32)
-                .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(Jpanel_affichageLayout.createSequentialGroup()
                 .addContainerGap()
@@ -279,20 +288,22 @@ public class Afficher extends javax.swing.JFrame {
         Jpanel_affichageLayout.setVerticalGroup(
             Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Jpanel_affichageLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lbl_Semestre)
-                        .addComponent(cbb_Semestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lbl_Annee))
-                    .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addGroup(Jpanel_affichageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_Semestre)
+                    .addComponent(cbb_Semestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_Annee)
+                    .addComponent(tf_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
                 .addComponent(jPanel_pieData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jPanel_tabResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
 
+        btn_triGlobal.setBackground(new java.awt.Color(0, 255, 204));
+        btn_triGlobal.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        btn_triGlobal.setForeground(new java.awt.Color(0, 0, 0));
         btn_triGlobal.setText("tri global");
         btn_triGlobal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -300,6 +311,9 @@ public class Afficher extends javax.swing.JFrame {
             }
         });
 
+        btn_triFiliere.setBackground(new java.awt.Color(0, 255, 204));
+        btn_triFiliere.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        btn_triFiliere.setForeground(new java.awt.Color(0, 0, 0));
         btn_triFiliere.setText("tri par filière");
         btn_triFiliere.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -308,6 +322,9 @@ public class Afficher extends javax.swing.JFrame {
         });
 
         BacSRes.setVisible(false);
+        BacSRes.setBackground(new java.awt.Color(102, 255, 204));
+        BacSRes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        BacSRes.setForeground(new java.awt.Color(0, 0, 0));
         BacSRes.setText("Résultats Bac S");
         BacSRes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,6 +333,9 @@ public class Afficher extends javax.swing.JFrame {
         });
 
         BacESRes.setVisible(false);
+        BacESRes.setBackground(new java.awt.Color(102, 255, 204));
+        BacESRes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        BacESRes.setForeground(new java.awt.Color(0, 0, 0));
         BacESRes.setText("Résultats Bac ES");
         BacESRes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -324,6 +344,9 @@ public class Afficher extends javax.swing.JFrame {
         });
 
         BacLRes.setVisible(false);
+        BacLRes.setBackground(new java.awt.Color(102, 255, 204));
+        BacLRes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        BacLRes.setForeground(new java.awt.Color(0, 0, 0));
         BacLRes.setText("Résultats Bac L");
         BacLRes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -338,20 +361,16 @@ public class Afficher extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(Jpanel_affichage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_triFiliere)
-                            .addComponent(btn_triGlobal, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(BacLRes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(BacESRes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(167, 167, 167)
-                        .addComponent(BacSRes, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(652, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btn_triGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_triFiliere, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(BacSRes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BacESRes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BacLRes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,9 +405,9 @@ public class Afficher extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(pann_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(58, 58, 58)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 51, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -402,10 +421,10 @@ public class Afficher extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pann_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(257, Short.MAX_VALUE))
+                .addContainerGap(164, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1420, 1027));
+        setSize(new java.awt.Dimension(1417, 934));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -499,6 +518,11 @@ public class Afficher extends javax.swing.JFrame {
         ChartPanel myChart = new ChartPanel(chart);
         myChart.setPreferredSize(new Dimension(500, 400));
         myChart.setMouseWheelEnabled(true);
+        
+        //Pan couleur
+        P.setSectionPaint("ADM",new Color(137,165,234));
+        P.setSectionPaint("ACQ",new Color(38,70,150));
+        P.setSectionPaint("RED",new Color(27, 43, 68));
         
         jPanel_pieData.setLayout(new java.awt.BorderLayout());
         jPanel_pieData.add(myChart,BorderLayout.CENTER);
