@@ -5,10 +5,19 @@
  */
 package cohortes;
 
-
+import static cohortes.Connexion.cnx;
+import static cohortes.Connexion.rst;
+import static cohortes.Rechercher.st;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 
@@ -17,7 +26,23 @@ import javax.swing.ImageIcon;
  * @author Chachou
  */
 public class Lister extends javax.swing.JFrame {
-
+    
+    
+     private static Connection  connecterDB(){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            String url="jdbc:mysql://localhost:3306/ptut?zeroDateTimeBehavior=convertToNull";
+            String user="root";
+            String password="";
+            Connection cnx=DriverManager.getConnection(url,user,password);
+            System.out.println("Connexion bien établié");
+            return cnx;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+     }
+   
     /**
      * Creates new form Connexion
      */
@@ -38,12 +63,28 @@ public class Lister extends javax.swing.JFrame {
         lbl_titre = new javax.swing.JLabel();
         ImageIcon image=new ImageIcon("src/gif/Logo.jpg");
         lbl_logo = new javax.swing.JLabel(image);
+        bt_deco = new javax.swing.JButton();
         lbl_nompage = new javax.swing.JLabel();
         pann_menu = new javax.swing.JPanel();
         bt_rechercher = new javax.swing.JButton();
         bt_afficher = new javax.swing.JButton();
         bt_lister = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        pann_recherche = new javax.swing.JPanel();
+        lbl_nom = new javax.swing.JLabel();
+        lbl_annee = new javax.swing.JLabel();
+        text_annee = new javax.swing.JTextField();
+        text_nom = new javax.swing.JTextField();
+        lbl_num1 = new javax.swing.JLabel();
+        text_num = new javax.swing.JTextField();
+        lbl_intitule = new javax.swing.JLabel();
+        bt_rechercher1 = new javax.swing.JButton();
+        tab_pann = new javax.swing.JTabbedPane();
+        ong_reu = new javax.swing.JScrollPane();
+        tab_reussite = new javax.swing.JTable();
+        ong_echec = new javax.swing.JScrollPane();
+        tab_echec = new javax.swing.JTable();
+        lbl_erreur = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -61,6 +102,16 @@ public class Lister extends javax.swing.JFrame {
 
         lbl_logo.setText("");
 
+        bt_deco.setBackground(new java.awt.Color(102, 255, 204));
+        bt_deco.setFont(new java.awt.Font("Leelawadee UI", 1, 18)); // NOI18N
+        bt_deco.setText("Déconnexion");
+        bt_deco.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        bt_deco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_decoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pann_cohortesLayout = new javax.swing.GroupLayout(pann_cohortes);
         pann_cohortes.setLayout(pann_cohortesLayout);
         pann_cohortesLayout.setHorizontalGroup(
@@ -69,12 +120,18 @@ public class Lister extends javax.swing.JFrame {
                 .addComponent(lbl_logo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_titre, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addGap(203, 203, 203)
+                .addComponent(bt_deco)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pann_cohortesLayout.setVerticalGroup(
             pann_cohortesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lbl_logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbl_titre, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+            .addGroup(pann_cohortesLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(bt_deco)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         lbl_nompage.setFont(new java.awt.Font("Dialog", 2, 24)); // NOI18N
@@ -133,15 +190,188 @@ public class Lister extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
 
+        lbl_nom.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbl_nom.setText("Nom étudiant :");
+
+        lbl_annee.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbl_annee.setText("Année :");
+
+        text_annee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_anneeActionPerformed(evt);
+            }
+        });
+        text_annee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_anneeActionPerformed(evt);
+            }
+        });
+        text_annee.addKeyListener(new KeyListener() {
+
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            public void keyPressed(KeyEvent e) {
+
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+
+                bt_recherche1.doClick(0);
+
+            }
+
+            public void keyReleased(KeyEvent e) {
+
+            }
+
+        });
+
+        text_nom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_nomActionPerformed(evt);
+            }
+        });
+
+        lbl_num1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbl_num1.setText("Numéro étudiant :");
+
+        text_num.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_numActionPerformed(evt);
+            }
+        });
+
+        lbl_intitule.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbl_intitule.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_intitule.setText("recherche par :");
+
+        bt_rechercher1.setBackground(new java.awt.Color(102, 255, 204));
+        bt_rechercher1.setFont(new java.awt.Font("Leelawadee UI", 1, 24)); // NOI18N
+        bt_rechercher1.setForeground(new java.awt.Color(0, 0, 0));
+        bt_rechercher1.setText("OK");
+        bt_rechercher1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        bt_rechercher1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_rechercher1ActionPerformed(evt);
+            }
+        });
+        bt_rechercher.addMouseListener( new btMouseListener());
+
+        javax.swing.GroupLayout pann_rechercheLayout = new javax.swing.GroupLayout(pann_recherche);
+        pann_recherche.setLayout(pann_rechercheLayout);
+        pann_rechercheLayout.setHorizontalGroup(
+            pann_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pann_rechercheLayout.createSequentialGroup()
+                .addGroup(pann_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pann_rechercheLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(lbl_intitule, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pann_rechercheLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(pann_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lbl_num1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(text_num, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                            .addComponent(text_annee, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                            .addComponent(text_nom, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                            .addComponent(lbl_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bt_rechercher1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+        pann_rechercheLayout.setVerticalGroup(
+            pann_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pann_rechercheLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_intitule, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(text_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(lbl_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(text_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(lbl_num1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(text_num, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(bt_rechercher1)
+                .addGap(51, 51, 51))
+        );
+
+        tab_reussite.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "numéro étudiant", "nom", "prénom", "année"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        ong_reu.setViewportView(tab_reussite);
+
+        tab_pann.addTab("Réussite", ong_reu);
+
+        tab_echec.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "numéro étudiant", "nom", "prénom", "année"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        ong_echec.setViewportView(tab_echec);
+
+        tab_pann.addTab("Echec", ong_echec);
+
+        lbl_erreur.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lbl_erreur.setForeground(new java.awt.Color(255, 0, 51));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1103, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(tab_pann, javax.swing.GroupLayout.PREFERRED_SIZE, 875, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbl_erreur, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(170, 170, 170)))
+                .addComponent(pann_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 534, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pann_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbl_erreur, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tab_pann, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -172,7 +402,7 @@ public class Lister extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pann_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(1420, 766));
@@ -183,6 +413,80 @@ public class Lister extends javax.swing.JFrame {
         // TODO add your handling code here:
  
     }//GEN-LAST:event_bt_rechercherActionPerformed
+
+    private void text_nomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_nomActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_nomActionPerformed
+
+    private void text_numActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_numActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_numActionPerformed
+
+    private void bt_decoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_decoActionPerformed
+        int input = JOptionPane.showConfirmDialog(this, "Quitter l'application ?","", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (input == JOptionPane.OK_OPTION) {
+            Connexion co = new Connexion();
+            this.setVisible(false);
+            co.setVisible(true);
+        } else if (input == JOptionPane.CANCEL_OPTION) {
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+
+    }//GEN-LAST:event_bt_decoActionPerformed
+
+    private void text_anneeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_anneeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_anneeActionPerformed
+
+    private void bt_rechercher1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_rechercher1ActionPerformed
+        cnx=connecterDB();
+        
+        String recherche1=text_annee.getText();
+        
+        String sqlann = "select * from etudiants where annee like'"+ recherche1 +"% +' ";
+        String sqlnom = "select * from etudiants where nom like'"+ recherche +"% +' ";
+        String sqlnum = "select * from etudiants where numero like'"+ recherche +"% +' ";
+
+        try
+        {
+        
+        st=cnx.createStatement(); 
+        Statement st = cnx.createStatement();
+        ResultSet rs= st.executeQuery(sqlann);
+        int i = 0;
+        if (i == 0)
+        {
+             lbl_erreur.setText("Aucun résultat trouvé ");
+             lbl_erreur.setVisible(true);
+        } else {
+        
+            
+            
+        }
+        if
+         {
+        String recherche=text_nom.getText();
+        }   
+        if
+         {
+        String recherche=text_num.getText();
+        }  
+         
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+       
+       
+        tab_reussite.getColumnModel().getColumn(1).setHeaderValue("Numéro étudiant");
+        tab_reussite.getColumnModel().getColumn(2).setHeaderValue("Nom");
+        tab_reussite.getColumnModel().getColumn(3).setHeaderValue("Prenom");
+        tab_reussite.getColumnModel().getColumn(4).setHeaderValue("Année");
+        
+        
+
+        
+    }//GEN-LAST:event_bt_rechercher1ActionPerformed
     class btMouseListener implements MouseListener 
         {
 
@@ -286,13 +590,29 @@ public class Lister extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_afficher;
+    private javax.swing.JButton bt_deco;
     private javax.swing.JButton bt_lister;
     private javax.swing.JButton bt_rechercher;
+    private javax.swing.JButton bt_rechercher1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbl_annee;
+    private javax.swing.JLabel lbl_erreur;
+    private javax.swing.JLabel lbl_intitule;
     private javax.swing.JLabel lbl_logo;
+    private javax.swing.JLabel lbl_nom;
     private javax.swing.JLabel lbl_nompage;
+    private javax.swing.JLabel lbl_num1;
     private javax.swing.JLabel lbl_titre;
+    private javax.swing.JScrollPane ong_echec;
+    private javax.swing.JScrollPane ong_reu;
     private javax.swing.JPanel pann_cohortes;
     private javax.swing.JPanel pann_menu;
+    private javax.swing.JPanel pann_recherche;
+    private javax.swing.JTable tab_echec;
+    private javax.swing.JTabbedPane tab_pann;
+    private javax.swing.JTable tab_reussite;
+    private javax.swing.JTextField text_annee;
+    private javax.swing.JTextField text_nom;
+    private javax.swing.JTextField text_num;
     // End of variables declaration//GEN-END:variables
 }
