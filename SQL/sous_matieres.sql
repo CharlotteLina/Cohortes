@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS `sous_matieres`;
 CREATE TABLE IF NOT EXISTS `sous_matieres` (
   `id_sous_matiere` varchar(20) NOT NULL,
   `nom_sous_matiere` varchar(100) DEFAULT NULL,
-  `coeff_sous_matiere` int(10) DEFAULT NULL,
+  `coeff_sous_matiere` double(10,2) DEFAULT NULL,
   `id_matiere` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id_sous_matiere`),
   KEY `fk_sous_matiere` (`id_matiere`)
@@ -62,15 +62,26 @@ INSERT INTO `sous_matieres` (`id_sous_matiere`, `nom_sous_matiere`, `coeff_sous_
 ('m2105-2', 'programmation d ihm', 0, 'm2105'),
 ('m2204-1', 'environnement juridique ', 0, 'm2204'),
 ('m2204-2', 'environnement juridique ', 0, 'm2204'),
-('m3101-1', 'principes des syst√®mes d exploitation  (se)', 2, 'm3101'),
-('m3101-2', 'principes des syst√®mes d exploitation  (se-tp)', 1, 'm3101'),
-('m3104-1', 'programmation web c√¥t√© serveur (php)', 2, 'm3104'),
-('m3104-2', 'programmation web c√¥t√© serveur (java)', 1, 'm3104'),
+('m3101-1', 'principes des systemes d exploitation  (se)', 2, 'm3101'),
+('m3101-2', 'principes des systemes d exploitation  (se-tp)', 1, 'm3101'),
+('m3104-1', 'programmation web serveur (php)', 2, 'm3104'),
+('m3104-2', 'programmation web serveur (java)', 1, 'm3104'),
 ('m3204-1', 'gestion des syst√®mes d information (partie 1)', 0, 'm3204'),
 ('m3204-2', 'gestion des syst√®mes d information (partie 2)', 0, 'm3204'),
-('m3301-1', 'm√©thodologie de la production d‚Äôapplications (mod√©lisation des processus)', 0, 'm3301'),
-('m3301-2', 'm√©thodologie de la production d‚Äôapplications (partie ego)', 0, 'm3301');
+('m3301-1', 'methodologie de la production d applications (modelisation des processus)', 0, 'm3301'),
+('m3301-2', 'methodologie de la production d applications (partie ego)', 0, 'm3301'),
+('M41L01c','sÈcuritÈ reseau',1.5,'m4101í'),
+('M41L04C','technologies web et rÈseau',1.5,'m4105'),
+('M41L02C','cloud computing',1.5,'m4102'),
+('M41L03C','intelligence artificielle',1.5,'m4103í'),
+('M41L05C','technologies web',1.5,'m41l01c'),
+('M42L02C','business intelligence et stratÈgies entreprises',1.5,'m4202'),
+('M42L01C','Concept et Outils informatiques pour lentreprise',1.5,'m4202'),
+('M42L03C','Mathematique et informatique avancÈes(r)',1.5,'m4202'),
+('M42L04C','MathÈmatique avancÈes(r)',1.5,'m4202');
+
 COMMIT;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

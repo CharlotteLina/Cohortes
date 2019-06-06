@@ -39,7 +39,6 @@ public class Rechercher extends javax.swing.JFrame {
             String user="root";
             String password="";
             Connection cnx=DriverManager.getConnection(url,user,password);
-            System.out.println("Connexion bien établié");
             return cnx;
         }catch(Exception e){
             e.printStackTrace();
