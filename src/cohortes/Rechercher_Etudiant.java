@@ -544,7 +544,6 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
                 modele.removeRow(i-1);
             }
         }
-        System.out.println(l);
     }
     
     // Mise en place des notes du semestre 1

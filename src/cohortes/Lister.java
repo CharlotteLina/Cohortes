@@ -20,6 +20,8 @@ import java.sql.Statement;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 
 
@@ -29,6 +31,9 @@ import javax.swing.JOptionPane;
  */
 public class Lister extends javax.swing.JFrame {
     
+     static Connection cnx;
+    static Statement st;
+    static ResultSet rst;
     
      private static Connection  connecterDB(){
         try{
@@ -37,7 +42,6 @@ public class Lister extends javax.swing.JFrame {
             String user="root";
             String password="";
             Connection cnx=DriverManager.getConnection(url,user,password);
-            System.out.println("Connexion bien établié");
             return cnx;
         }catch(Exception e){
             e.printStackTrace();
@@ -50,6 +54,7 @@ public class Lister extends javax.swing.JFrame {
      */
     public Lister() {
         initComponents();
+        cnx=connecterDB();
     }
 
     /**
@@ -71,21 +76,17 @@ public class Lister extends javax.swing.JFrame {
         bt_rechercher = new javax.swing.JButton();
         bt_afficher = new javax.swing.JButton();
         bt_lister = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        pann_lister = new javax.swing.JPanel();
         pann_recherche = new javax.swing.JPanel();
-        lbl_nom = new javax.swing.JLabel();
         lbl_annee = new javax.swing.JLabel();
         text_annee = new javax.swing.JTextField();
-        text_nom = new javax.swing.JTextField();
-        lbl_num1 = new javax.swing.JLabel();
-        text_num = new javax.swing.JTextField();
         lbl_intitule = new javax.swing.JLabel();
         bt_rechercher1 = new javax.swing.JButton();
-        tab_pann = new javax.swing.JTabbedPane();
-        ong_reu = new javax.swing.JScrollPane();
-        tab_reussite = new javax.swing.JTable();
-        ong_echec = new javax.swing.JScrollPane();
-        tab_echec = new javax.swing.JTable();
+        bt_reussite = new javax.swing.JButton();
+        bt_echec = new javax.swing.JButton();
+        jsp_notes = new javax.swing.JScrollPane();
+        jt_lister = new javax.swing.JTable();
+        lbl_reussiteOuEchec = new javax.swing.JLabel();
         lbl_erreur = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -190,10 +191,7 @@ public class Lister extends javax.swing.JFrame {
                 .addContainerGap(220, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
-
-        lbl_nom.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbl_nom.setText("Nom étudiant :");
+        pann_lister.setBackground(new java.awt.Color(153, 153, 153));
 
         lbl_annee.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lbl_annee.setText("Année :");
@@ -228,21 +226,6 @@ public class Lister extends javax.swing.JFrame {
 
         });
 
-        text_nom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                text_nomActionPerformed(evt);
-            }
-        });
-
-        lbl_num1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbl_num1.setText("Numéro étudiant :");
-
-        text_num.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                text_numActionPerformed(evt);
-            }
-        });
-
         lbl_intitule.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         lbl_intitule.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_intitule.setText("recherche par :");
@@ -271,11 +254,7 @@ public class Lister extends javax.swing.JFrame {
                     .addGroup(pann_rechercheLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(pann_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbl_num1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(text_num, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                             .addComponent(text_annee, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                            .addComponent(text_nom, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                            .addComponent(lbl_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbl_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bt_rechercher1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(24, Short.MAX_VALUE))
@@ -289,92 +268,100 @@ public class Lister extends javax.swing.JFrame {
                 .addComponent(lbl_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(text_annee, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(lbl_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(text_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(lbl_num1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(text_num, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(50, 50, 50)
                 .addComponent(bt_rechercher1)
-                .addGap(51, 51, 51))
+                .addGap(299, 299, 299))
         );
 
-        tab_reussite.setModel(new javax.swing.table.DefaultTableModel(
+        bt_reussite.setBackground(new java.awt.Color(0, 0, 0));
+        bt_reussite.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        bt_reussite.setForeground(new java.awt.Color(0, 204, 204));
+        bt_reussite.setText("Reussite");
+        bt_reussite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_reussiteActionPerformed(evt);
+            }
+        });
+
+        bt_echec.setBackground(new java.awt.Color(0, 0, 0));
+        bt_echec.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        bt_echec.setForeground(new java.awt.Color(0, 204, 204));
+        bt_echec.setText("Echec");
+        bt_echec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_echecActionPerformed(evt);
+            }
+        });
+
+        jt_lister.setBackground(new java.awt.Color(153, 153, 153));
+        jt_lister.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jt_lister.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jt_lister.setForeground(new java.awt.Color(0, 0, 0));
+        jt_lister.setRowHeight(30);
+        jt_lister.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "numéro étudiant", "nom", "prénom", "année"
+                "Numero Etudiant", "Nom", "Prenom"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        ong_reu.setViewportView(tab_reussite);
+        jsp_notes.setViewportView(jt_lister);
 
-        tab_pann.addTab("Réussite", ong_reu);
+        lbl_reussiteOuEchec.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
+        lbl_reussiteOuEchec.setVisible(false);
 
-        tab_echec.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "numéro étudiant", "nom", "prénom", "année"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        ong_echec.setViewportView(tab_echec);
-
-        tab_pann.addTab("Echec", ong_echec);
-
-        lbl_erreur.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lbl_erreur.setForeground(new java.awt.Color(255, 0, 51));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pann_listerLayout = new javax.swing.GroupLayout(pann_lister);
+        pann_lister.setLayout(pann_listerLayout);
+        pann_listerLayout.setHorizontalGroup(
+            pann_listerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pann_listerLayout.createSequentialGroup()
+                .addGroup(pann_listerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pann_listerLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(tab_pann, javax.swing.GroupLayout.PREFERRED_SIZE, 875, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbl_erreur, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(170, 170, 170)))
+                        .addComponent(bt_reussite, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bt_echec, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pann_listerLayout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jsp_notes, javax.swing.GroupLayout.PREFERRED_SIZE, 845, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pann_listerLayout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(lbl_reussiteOuEchec, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(pann_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pann_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lbl_erreur, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tab_pann, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+        pann_listerLayout.setVerticalGroup(
+            pann_listerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pann_listerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pann_listerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pann_listerLayout.createSequentialGroup()
+                        .addGap(0, 11, Short.MAX_VALUE)
+                        .addComponent(pann_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(pann_listerLayout.createSequentialGroup()
+                        .addGroup(pann_listerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bt_reussite)
+                            .addComponent(bt_echec))
+                        .addGap(18, 18, 18)
+                        .addComponent(lbl_reussiteOuEchec, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jsp_notes, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))))
         );
+
+        lbl_erreur.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_erreur.setForeground(new java.awt.Color(255, 0, 51));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -383,13 +370,16 @@ public class Lister extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_nompage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbl_erreur, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_nompage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(pann_cohortes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(pann_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pann_lister, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -399,12 +389,14 @@ public class Lister extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(pann_cohortes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_nompage)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lbl_nompage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_erreur, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pann_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pann_lister, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(1420, 766));
@@ -415,14 +407,6 @@ public class Lister extends javax.swing.JFrame {
         // TODO add your handling code here:
  
     }//GEN-LAST:event_bt_rechercherActionPerformed
-
-    private void text_nomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_nomActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_text_nomActionPerformed
-
-    private void text_numActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_numActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_text_numActionPerformed
 
     private void bt_decoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_decoActionPerformed
         int input = JOptionPane.showConfirmDialog(this, "Quitter l'application ?","", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -436,59 +420,105 @@ public class Lister extends javax.swing.JFrame {
 
     }//GEN-LAST:event_bt_decoActionPerformed
 
+    private void bt_rechercher1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_rechercher1ActionPerformed
+            bt_reussite.doClick(0);
+
+    }//GEN-LAST:event_bt_rechercher1ActionPerformed
+
     private void text_anneeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_anneeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_text_anneeActionPerformed
 
-    private void bt_rechercher1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_rechercher1ActionPerformed
-        cnx=connecterDB();
-        
-        String recherche1=text_annee.getText();
-        
-        String sqlann = "select * from etudiants where annee like'"+ recherche1 +"% +' ";
-        String sqlnom = "select * from etudiants where nom like'"+ recherche1 +"% +' ";
-        String sqlnum = "select * from etudiants where numero like'"+ recherche1 +"% +' ";
-
+    private void bt_reussiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_reussiteActionPerformed
+  
+        test_table();
+        lbl_reussiteOuEchec.setVisible(true);
+        lbl_reussiteOuEchec.setText("Etudiants Admis");
+        DefaultTableModel modele= (DefaultTableModel)jt_lister.getModel();
+        jt_lister.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
+             
         try
         {
-        
-        st=cnx.createStatement(); 
-        Statement st = cnx.createStatement();
-        ResultSet rs= st.executeQuery(sqlann);
-        int i = 0;
-        if (i == 0)
-        {
-             lbl_erreur.setText("Aucun résultat trouvé ");
-             lbl_erreur.setVisible(true);
-        } else {
-        
             
+            String recherche=text_annee.getText();
+            st=cnx.createStatement();
+            if(recherche.equals(""))
+            {
+            rst=st.executeQuery("Select * from notess4, etudiants where etudiants.NE=notess4.NE and res like'ADM'");  
+            }
+            else
+            {
+            rst=st.executeQuery("Select * from notess4, etudiants where etudiants.NE=notess4.NE and res like'ADM' and Annee='"+recherche+"'");
+            }
+                while(rst.next())
+                {
+                    String NE=rst.getString("NE");
+                    String Nom=rst.getString("Nom");
+                    String Prenom=rst.getString("Prenom");
+                                        
+                    modele.addRow(new Object[]{NE,Nom,Prenom});
+
             
+                }
+    
         }
-        //if()
-        // {
-        //String recherche=text_nom.getText();
-        //}   
-        //if
-         //{
-        //String recherche=text_num.getText();
-        //}  
-         
-        } catch (SQLException ex) {
+        catch(Exception ex){
             ex.printStackTrace();
         }
-        
-       
-       
-        tab_reussite.getColumnModel().getColumn(1).setHeaderValue("Numéro étudiant");
-        tab_reussite.getColumnModel().getColumn(2).setHeaderValue("Nom");
-        tab_reussite.getColumnModel().getColumn(3).setHeaderValue("Prenom");
-        tab_reussite.getColumnModel().getColumn(4).setHeaderValue("Année");
-        
-        
 
+    }//GEN-LAST:event_bt_reussiteActionPerformed
+
+    private void bt_echecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_echecActionPerformed
+        // TODO add your handling code here:
+         
+        test_table();
+        lbl_reussiteOuEchec.setText("Etudiants Refusé");
+        DefaultTableModel modele= (DefaultTableModel)jt_lister.getModel();
+        jt_lister.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
+             
+        try
+        {
+
+            String recherche=text_annee.getText();
+            st=cnx.createStatement();
+             if(recherche.equals(""))
+            {
+            rst=st.executeQuery("Select * from notess4, etudiants where etudiants.NE=notess4.NE and res not like'ADM'");  
+            }
+            else
+            {
+            rst=st.executeQuery("Select * from notess4, etudiants where etudiants.NE=notess4.NE and res not like'ADM' and Annee='"+recherche+"'");
+            }
+           
+                while(rst.next())
+                {
+                    String NE=rst.getString("NE");
+                    String Nom=rst.getString("Nom");
+                    String Prenom=rst.getString("Prenom");
+                                        
+                    modele.addRow(new Object[]{NE,Nom,Prenom});
+
+            
+                }
+    
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_bt_echecActionPerformed
+     private void test_table()
+    {
         
-    }//GEN-LAST:event_bt_rechercher1ActionPerformed
+        DefaultTableModel modele= (DefaultTableModel)jt_lister.getModel();
+        int l=modele.getRowCount();
+        if(l>0)
+        {
+              for(int i =l; i > 0; --i) 
+            {
+                modele.removeRow(i-1);
+            }
+        }
+    }
     class btMouseListener implements MouseListener 
         {
 
@@ -593,28 +623,24 @@ public class Lister extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_afficher;
     private javax.swing.JButton bt_deco;
+    private javax.swing.JButton bt_echec;
     private javax.swing.JButton bt_lister;
     private javax.swing.JButton bt_rechercher;
     private javax.swing.JButton bt_rechercher1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton bt_reussite;
+    private javax.swing.JScrollPane jsp_notes;
+    private javax.swing.JTable jt_lister;
     private javax.swing.JLabel lbl_annee;
     private javax.swing.JLabel lbl_erreur;
     private javax.swing.JLabel lbl_intitule;
     private javax.swing.JLabel lbl_logo;
-    private javax.swing.JLabel lbl_nom;
     private javax.swing.JLabel lbl_nompage;
-    private javax.swing.JLabel lbl_num1;
+    private javax.swing.JLabel lbl_reussiteOuEchec;
     private javax.swing.JLabel lbl_titre;
-    private javax.swing.JScrollPane ong_echec;
-    private javax.swing.JScrollPane ong_reu;
     private javax.swing.JPanel pann_cohortes;
+    private javax.swing.JPanel pann_lister;
     private javax.swing.JPanel pann_menu;
     private javax.swing.JPanel pann_recherche;
-    private javax.swing.JTable tab_echec;
-    private javax.swing.JTabbedPane tab_pann;
-    private javax.swing.JTable tab_reussite;
     private javax.swing.JTextField text_annee;
-    private javax.swing.JTextField text_nom;
-    private javax.swing.JTextField text_num;
     // End of variables declaration//GEN-END:variables
 }
