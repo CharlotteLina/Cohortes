@@ -8,6 +8,8 @@ package cohortes;
 import static cohortes.Connexion.cnx;
 import static cohortes.Connexion.rst;
 import static cohortes.Rechercher.st;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
@@ -216,7 +218,7 @@ public class Lister extends javax.swing.JFrame {
 
                 if (e.getKeyCode() == KeyEvent.VK_ENTER)
 
-                bt_recherche1.doClick(0);
+                bt_rechercher1.doClick(0);
 
             }
 
@@ -444,8 +446,8 @@ public class Lister extends javax.swing.JFrame {
         String recherche1=text_annee.getText();
         
         String sqlann = "select * from etudiants where annee like'"+ recherche1 +"% +' ";
-        String sqlnom = "select * from etudiants where nom like'"+ recherche +"% +' ";
-        String sqlnum = "select * from etudiants where numero like'"+ recherche +"% +' ";
+        String sqlnom = "select * from etudiants where nom like'"+ recherche1 +"% +' ";
+        String sqlnum = "select * from etudiants where numero like'"+ recherche1 +"% +' ";
 
         try
         {
@@ -463,14 +465,14 @@ public class Lister extends javax.swing.JFrame {
             
             
         }
-        if
-         {
-        String recherche=text_nom.getText();
-        }   
-        if
-         {
-        String recherche=text_num.getText();
-        }  
+        //if()
+        // {
+        //String recherche=text_nom.getText();
+        //}   
+        //if
+         //{
+        //String recherche=text_num.getText();
+        //}  
          
         } catch (SQLException ex) {
             ex.printStackTrace();

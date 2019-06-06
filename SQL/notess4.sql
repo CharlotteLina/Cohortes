@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `notess4` (
   `ParChoix2` varchar(20) NOT NULL,
   `M42L01C` varchar(20) NOT NULL,
   `M42L03C` varchar(20) NOT NULL,
-  `M4202C` varchar(20) NOT NULL,
+  `M4202` varchar(20) NOT NULL,
   `M42L04C` varchar(20) NOT NULL,
   `UE42` varchar(20) NOT NULL,
   `M4301` varchar(20) NOT NULL,

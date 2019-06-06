@@ -85,16 +85,19 @@ INSERT INTO `matieres` (`id_matiere`, `nom_matiere`, `coeff_matiere`, `id_UE`) V
 ('m3301', 'methodologie de la production d’applications', 3.00, 'ue33'),
 ('m3302', 'projet tutore - mise en situation professionnelle', 2.00, 'ue33'),
 ('m3303', 'ppp - preciser son projet', 1.00, 'ue33'),
-('m4101', 'administration systeme et reseau', 1.50, 'ue41'),
+
+('M4101C', 'administration systeme et reseau', 1.50, 'ue41'),
 ('m4102', 'programmation repartie', 1.50, 'ue41'),
 ('m4103', 'programmation web – client riche', 1.50, 'ue41'),
-('m4104', 'conception et developpement d’applications mobiles', 1.50, 'ue41'),
+('M4104C', 'conception et developpement d’applications mobiles', 1.50, 'ue41'),
 ('m4106', 'projet tutoré', 2.50, 'ue41'),
 ('m4301', 'stage professionnel', 12.00, 'ue43'),
-('ParChoix', 'projet tutoré', 0.00, 'ue41'),
+('ParChoix', 'parcours a choix', 0.00, 'ue41'),
 ('m4201', 'ateliers de création d’entreprise', 2.00, 'ue42'),
 ('m4202', 'introduction à la recherche opérationnelle et aide à la décision', 2.00, 'ue42'),
-('m4203', 'communication dans les organisations', 2.00, 'ue42');
+('m4203', 'communication dans les organisations', 2.00, 'ue42'),
+('m4204', 'travailler en anglais', 0.00, 'ue42'),
+('ParChoix2', 'parcours a choix 2', 0.00, 'ue42');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

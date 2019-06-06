@@ -271,7 +271,7 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
             }
         });
 
-        jt_notes.setBackground(new java.awt.Color(204, 204, 204));
+        jt_notes.setBackground(new java.awt.Color(153, 153, 153));
         jt_notes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jt_notes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jt_notes.setForeground(new java.awt.Color(0, 0, 0));
@@ -581,7 +581,7 @@ public class Rechercher_Etudiant extends javax.swing.JFrame {
             }
             else
             {
-                c.setBackground(Color.WHITE);
+                c.setBackground(new Color (152,152,152));
             }
         
 
@@ -660,7 +660,7 @@ return c;
             }
             else
             {
-                c.setBackground(Color.WHITE);
+                c.setBackground(new Color (152,152,152));
             }
         
 
@@ -738,7 +738,7 @@ return c;
             }
             else
             {
-                c.setBackground(Color.WHITE);
+                c.setBackground(new Color (152,152,152));
             }
         
 
@@ -818,7 +818,7 @@ return c;
             }
             else
             {
-                c.setBackground(Color.WHITE);
+                c.setBackground(new Color (152,152,152));
             }
         
 
@@ -887,7 +887,8 @@ return c;
              
          return nom;
      }
-       
+    
+
     //Definition du menu (recherche -afficher - lister )
     class btMouseListener implements MouseListener 
         {
